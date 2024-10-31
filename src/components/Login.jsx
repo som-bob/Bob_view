@@ -12,9 +12,10 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault(); // 기본 풀 동작 방지
         try {
-            const data = await login(email, password);
-            console.log(data);  // 응답 데이터 확인
-            navigate('/');
+            const response = await login(email, password);
+            localStorage.setItem("accessToken", response.data.accessToken);
+            localStorage.setItem("refreshToken", response.data.refreshToken);
+            navigate('/boards');
         } catch (error) {
             alert('로그인 실패. 다시 시도해 주세요.')
             console.error('로그인 에러:', error);

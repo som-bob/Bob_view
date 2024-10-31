@@ -14,7 +14,6 @@ export const login = async (email, password) => {
         });
         return response.data;
     } catch (error) {
-        console.log('로그인 실패: ', error);
         throw error;
     }
 };
@@ -29,7 +28,6 @@ export const register = async (email, password, nickName) => {
         });
         return response.data;
     } catch (error) {
-        console.log('회원가입 실패: ', error);
         throw error;
     }
 };

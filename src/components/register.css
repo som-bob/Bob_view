@@ -42,3 +42,15 @@
 .login-button:hover {
     background-color: gray;
 }
+
+.success-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.success-message h2 {
+    color: #28a745;
+    margin-bottom: 20px;
+}

@@ -2,13 +2,14 @@
 
 // 백엔드 API URL 설정
 import axios from "axios";
+import axiosInstance from "./axiosInstance.js";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // 게시글 목록 조회
-export const getBoardList = async () => {
+export const getBoardList = async (page) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/board`);
+        const response = await axiosInstance.get(`${API_BASE_URL}/board?page=${page}`);
         return response.data;
     } catch (error) {
         console.log('게시글 목록 조회 실패: ', error);
@@ -19,7 +20,7 @@ export const getBoardList = async () => {
 // 특정 게시글 조회
 export const getBoard = async (boardId) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/board/${boardId}`);
+        const response = await axiosInstance.get(`${API_BASE_URL}/board/${boardId}`);
         return response.data;
     } catch (error) {
         console.log('게시글 조회 실패: ', error);
@@ -30,7 +31,7 @@ export const getBoard = async (boardId) => {
 // 게시글 생성
 export const addBoard = async (title, content) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/board`, {
+        const response = await axiosInstance.post(`${API_BASE_URL}/board`, {
             title,
             content
         });
@@ -44,7 +45,7 @@ export const addBoard = async (title, content) => {
 // 게시글 삭제
 export const deleteBoard = async (boardId) => {
     try {
-        const response = await axios.delete(`${API_BASE_URL}/board/${boardId}`);
+        const response = await axiosInstance.delete(`${API_BASE_URL}/board/${boardId}`);
         return response.data;
     } catch (error) {
         console.log('게시글 삭제 실패: ', error);
@@ -55,7 +56,7 @@ export const deleteBoard = async (boardId) => {
 // 댓글 생성
 export const addComment = async (boardId, comment) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/board/${boardId}/comment`, {
+        const response = await axiosInstance.post(`${API_BASE_URL}/board/${boardId}/comment`, {
             comment
         });
         return response.data;
@@ -68,7 +69,7 @@ export const addComment = async (boardId, comment) => {
 // 댓글 삭제
 export const deleteComment = async (commentId) => {
     try {
-        const response = await axios.delete(`${API_BASE_URL}/comment/${commentId}`);
+        const response = await axiosInstance.delete(`${API_BASE_URL}/comment/${commentId}`);
         return response.data;
     } catch (error) {
         console.log('게시글 삭제 실패: ', error);
