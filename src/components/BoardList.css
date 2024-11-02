@@ -5,6 +5,18 @@
     margin-top: 20px;
 }
 
+.search-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.search-container input,
+.search-container button {
+    padding: 8px;
+    font-size: 14px;
+}
+
 .board-list {
     list-style: none;
     padding: 0;
@@ -25,22 +37,10 @@
     background-color: #f9f9f9;
 }
 
-.board-item h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
-}
-
-.board-item p {
-    margin: 5px 0 0;
-    font-size: 14px;
-    color: #666;
-}
-
 .pagination {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     margin-top: 20px;
 }
 
@@ -50,6 +50,12 @@
     background-color: #f1f1f1;
     cursor: pointer;
     border-radius: 5px;
+}
+
+.pagination .page-number.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
 }
 
 .pagination button:disabled {
