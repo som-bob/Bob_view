@@ -1,0 +1,32 @@
+.board-detail-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.board-content {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+}

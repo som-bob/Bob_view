@@ -15,7 +15,7 @@ function Login() {
             const response = await login(email, password);
             localStorage.setItem("accessToken", response.data.accessToken);
             localStorage.setItem("refreshToken", response.data.refreshToken);
-            navigate('/boards');
+            navigate('/home');
         } catch (error) {
             alert('로그인 실패. 다시 시도해 주세요.')
             console.error('로그인 에러:', error);
