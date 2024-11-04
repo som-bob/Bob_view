@@ -85,11 +85,11 @@ function BoardList() {
     };
 
     const handleAddBoard = () => {
-        navigate('/board/add'); // 게시글 추가 페이지로 이동
+        navigate('/board/add'); // 게시글 추가 페이지로 이동 TODO
     };
 
     const handleBoardClick = (boardId) => {
-        navigate(`/board/${boardId}`); // 게시글 상세 페이지로 이동
+        navigate(`/board/${boardId}`); // 게시글 상세 페이지로 이동 TODO
     };
 
     return (

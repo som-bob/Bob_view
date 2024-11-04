@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import BoardList from './BoardList';
 import './layout.css';
 import {useNavigate} from "react-router-dom";
-import BoardCreate from "./BoardCreate.jsx";
-import BoardDetail from "./BoardDetail.jsx";
 
 function Layout() {
     const [activeMenu, setActiveMenu] = useState('welcome'); // 현재 선택된 메뉴
@@ -18,10 +16,6 @@ function Layout() {
         switch (activeMenu) {
             case 'board':
                 return <BoardList />;
-            case 'boardCreate':
-                return <BoardCreate/>;
-            case 'boardDetail':
-                return <BoardDetail/>;
             case 'welcome':
             default:
                 return <div className="welcome-message">test</div>;
