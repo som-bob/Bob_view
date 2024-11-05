@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
-import BoardList from './BoardList';
 import './layout.css';
-import {useNavigate} from "react-router-dom";
+import {Link, Route, Routes, useNavigate} from "react-router-dom";
+import PrivateRoute from "./PrivateRoute.jsx";
+import BoardCreate from "./BoardCreate.jsx";
+import BoardDetail from "./BoardDetail.jsx";
+import BoardList from "./BoardList.jsx";
 
 function Layout() {
     const [activeMenu, setActiveMenu] = useState('welcome'); // 현재 선택된 메뉴
@@ -12,13 +15,11 @@ function Layout() {
         navigate('/');  // 로그인 페이지로 리다이렉트
     }
 
-    const renderContent = () => {
-        switch (activeMenu) {
-            case 'board':
-                return <BoardList />;
-            case 'welcome':
-            default:
-                return <div className="welcome-message">test</div>;
+    // 상단 메뉴 클릭 시 메뉴에 따른 경로 이동
+    const changeActiveMenu = (menu) => {
+        setActiveMenu(menu); // 활성화된 메뉴 설정
+        if (menu === 'board') {
+            navigate("/home/board"); // '게시판' 클릭 시 게시판 목록 경로
         }
     };
 
@@ -29,7 +30,7 @@ function Layout() {
                 <ul className="menu-items">
                     <li
                         className={activeMenu === 'board' ? 'active' : ''}
-                        onClick={() => setActiveMenu('board')}
+                        onClick={() => changeActiveMenu('board')}
                     >
                         게시판
                     </li>
@@ -44,7 +45,11 @@ function Layout() {
 
             {/* 메인 컨텐츠 영역 */}
             <main className="main-content">
-                {renderContent()}
+                <Routes>
+                    <Route path="/board" element={<PrivateRoute element={BoardList}/>}/>
+                    <Route path="/board/add" element={<PrivateRoute element={BoardCreate}/>}/>
+                    <Route path="/board/:boardId" element={<PrivateRoute element={BoardDetail}/>}/>
+                </Routes>
             </main>
         </div>
     );

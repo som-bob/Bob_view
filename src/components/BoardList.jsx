@@ -84,12 +84,14 @@ function BoardList() {
         return pageNumbers;
     };
 
+    // 게시글 추가 페이지로 이동하는 함수
     const handleAddBoard = () => {
-        navigate('/board/add'); // 게시글 추가 페이지로 이동 TODO
+        navigate('/home/board/add'); // 절대 경로로 수정
     };
 
+    // 게시글 상세 페이지로 이동하는 함수
     const handleBoardClick = (boardId) => {
-        navigate(`/board/${boardId}`); // 게시글 상세 페이지로 이동 TODO
+        navigate(`/home/board/${boardId}`); // 절대 경로로 수정
     };
 
     return (
@@ -136,7 +138,11 @@ function BoardList() {
 
             <ul className="board-list">
                 {boards.map((board) => (
-                    <li key={board.boardId} onClick={() => handleBoardClick(board.boardId)} className="board-item">
+                    <li
+                        key={board.boardId}
+                        onClick={() => handleBoardClick(board.boardId)}
+                        className="board-item"
+                    >
                         <h3>{board.boardTitle}</h3>
                         <p>작성자: {board.regId}</p>
                         <p>작성일: {board.regDate}</p>

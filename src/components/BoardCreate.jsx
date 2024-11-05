@@ -15,8 +15,9 @@ function BoardCreate() {
         }
 
         try {
-            const boardId = addBoard(title, content);
-            navigate(`/board/${boardId}`);
+            const response = await addBoard(title, content); // boardId를 추출하여 사용
+            const boardId = Number(response.data);
+            navigate(`/home/board/${boardId}`); // 절대 경로로 설정
         } catch (error) {
             console.error('게시글 추가 실패:', error);
             alert('게시글 추가에 실패했습니다.');

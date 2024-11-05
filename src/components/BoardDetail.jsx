@@ -12,8 +12,8 @@ function BoardDetail(){
     useEffect(() => {
         const fetchBoardDetail = async () => {
             try {
-                const response = getBoard(boardId);
-                setBoard(response);
+                const response = await getBoard(boardId);
+                setBoard(response.data);
             } catch (error) {
                 console.error('게시글 정보를 불러오는 데 실패했습니다:', err);
                 setError('게시글 정보를 불러오는 데 실패했습니다.');
@@ -28,7 +28,7 @@ function BoardDetail(){
     }
 
     if(! board) {
-        <div>로딩 중...</div>
+        return <div>로딩 중...</div>
     }
 
     return (
