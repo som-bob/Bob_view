@@ -1,6 +1,3 @@
-const BASE_PATH = '/main';
-
-
 const PATHS = {
     LOGIN: '/login',
     REGISTER: '/register',

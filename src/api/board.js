@@ -77,7 +77,7 @@ export const addComment = async (boardId, comment) => {
 // 댓글 삭제
 export const deleteComment = async (commentId) => {
     try {
-        const response = await axiosInstance.delete(`${API_BASE_URL}/comment/${commentId}`);
+        const response = await axiosInstance.delete(`${API_BASE_URL}/board/comment/${commentId}`);
         return response.data;
     } catch (error) {
         console.log('게시글 삭제 실패: ', error);
