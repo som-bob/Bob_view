@@ -1,11 +1,12 @@
 const BASE_PATH = '/main';
 
+
 const PATHS = {
-    LOGIN: '/',
+    LOGIN: '/login',
     REGISTER: '/register',
-    BOARD_LIST: `${BASE_PATH}/board`,
-    BOARD_CREATE: `${BASE_PATH}/board/add`,
-    BOARD_DETAIL: (boardId) => `${BASE_PATH}/board/${boardId}`,
+    BOARD_LIST: `/board`,
+    BOARD_CREATE: `/board/add`,
+    BOARD_DETAIL: (boardId) => `/board/${boardId}`,
 };
 
 export default PATHS;

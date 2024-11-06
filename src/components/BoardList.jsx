@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {getBoardList} from '../api/board';
-import {useNavigate} from 'react-router-dom';
-import {formatDate} from '../utils/dateUtils'; // 날짜 형식 변환 함수 불러오기
+import React, { useEffect, useState } from 'react';
+import { getBoardList } from '../api/board';
+import { useNavigate } from 'react-router-dom';
+import { formatDate } from '../utils/dateUtils'; // 날짜 형식 변환 함수 불러오기
 import './boardList.css';
 import PATHS from "../routes/paths.js";
 
