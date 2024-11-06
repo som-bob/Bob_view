@@ -12,7 +12,7 @@ function App() {
             <Route path="/" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             {/* PrivateRoute 사용하여 로그인이 필요한 페이지 보호 */}
-            <Route path="/home/*" element={<PrivateRoute element={Layout}/>}/> {/* 로그인 후 메인 화면 */}
+            <Route path="/main/*" element={<PrivateRoute element={Layout}/>}/> {/* 로그인 후 메인 화면 */}
         </Routes>
     );
 }

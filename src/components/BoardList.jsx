@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { getBoardList } from '../api/board';
-import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../utils/dateUtils'; // 날짜 형식 변환 함수 불러오기
+import React, {useEffect, useState} from 'react';
+import {getBoardList} from '../api/board';
+import {useNavigate} from 'react-router-dom';
+import {formatDate} from '../utils/dateUtils'; // 날짜 형식 변환 함수 불러오기
 import './boardList.css';
+import PATHS from "../routes/paths.js";
 
 function BoardList() {
     const [boards, setBoards] = useState([]); // 게시글 목록
@@ -86,12 +87,12 @@ function BoardList() {
 
     // 게시글 추가 페이지로 이동하는 함수
     const handleAddBoard = () => {
-        navigate('/home/board/add'); // 절대 경로로 수정
+        navigate(PATHS.BOARD_CREATE); // 절대 경로로 수정
     };
 
     // 게시글 상세 페이지로 이동하는 함수
     const handleBoardClick = (boardId) => {
-        navigate(`/home/board/${boardId}`); // 절대 경로로 수정
+        navigate(PATHS.BOARD_DETAIL(boardId)); // 절대 경로로 수정
     };
 
     return (

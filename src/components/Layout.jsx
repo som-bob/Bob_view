@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import './layout.css';
-import {Link, Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import PrivateRoute from "./PrivateRoute.jsx";
 import BoardCreate from "./BoardCreate.jsx";
 import BoardDetail from "./BoardDetail.jsx";
 import BoardList from "./BoardList.jsx";
+import PATHS from "../routes/paths.js";
 
 function Layout() {
     const [activeMenu, setActiveMenu] = useState('welcome'); // 현재 선택된 메뉴
@@ -12,14 +13,14 @@ function Layout() {
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken'); // accessToken 삭제
-        navigate('/');  // 로그인 페이지로 리다이렉트
+        navigate(PATHS.LOGIN);  // 로그인 페이지로 리다이렉트
     }
 
     // 상단 메뉴 클릭 시 메뉴에 따른 경로 이동
     const changeActiveMenu = (menu) => {
         setActiveMenu(menu); // 활성화된 메뉴 설정
         if (menu === 'board') {
-            navigate("/home/board"); // '게시판' 클릭 시 게시판 목록 경로
+            navigate(PATHS.BOARD_LIST); // '게시판' 클릭 시 게시판 목록 경로
         }
     };
 

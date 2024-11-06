@@ -2,6 +2,7 @@ import {useState} from "react";
 import './boardCreate.css';
 import {useNavigate} from "react-router-dom";
 import {addBoard} from "../api/board.js";
+import PATHS from "../routes/paths.js";
 
 function BoardCreate() {
     const [title, setTitle] = useState('');
@@ -17,7 +18,7 @@ function BoardCreate() {
         try {
             const response = await addBoard(title, content); // boardId를 추출하여 사용
             const boardId = Number(response.data);
-            navigate(`/home/board/${boardId}`); // 절대 경로로 설정
+            navigate(PATHS.BOARD_DETAIL(boardId)); // 절대 경로로 설정
         } catch (error) {
             console.error('게시글 추가 실패:', error);
             alert('게시글 추가에 실패했습니다.');
@@ -29,7 +30,7 @@ function BoardCreate() {
             <h2>게시글 추가</h2>
             <form onSubmit={(e) => e.preventDefault()}>
                 <div className="form-group">
-                    <label>제목</label>
+                    <label>내용</label>
                     <input
                         type="text"
                         value={title}
