@@ -49,14 +49,18 @@ axiosInstance.interceptors.response.use(
 const reissueToken = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
     try {
-        const response = await axios.post(`${API_BASE_URL}/reissue`, null, {
+        const response = await axios.post(`${API_BASE_URL}/member/reissue`, null, {
             headers: {
-                Authorization: `Bearer ${refreshToken}`,
+                Authorization: `Bearer ${refreshToken}`, // 정확한 형식 확인
             },
         });
         // 새로운 accessToken, refreshToken 저장
-        localStorage.setItem("accessToken", response.data.accessToken);
+        const accessToken = response.data.accessToken;
+        localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
+
+        console.log('accessToken', accessToken);
+        console.log('refreshToken', refreshToken);
 
         return accessToken;
     } catch (error) {

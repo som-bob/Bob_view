@@ -6,6 +6,7 @@ import BoardCreate from "./BoardCreate.jsx";
 import BoardDetail from "./BoardDetail.jsx";
 import BoardList from "./BoardList.jsx";
 import PATHS from "../routes/paths.js";
+import BoardEdit from "./BoardEdit.jsx";
 
 function Layout() {
     const [activeMenu, setActiveMenu] = useState('welcome'); // 현재 선택된 메뉴
@@ -13,6 +14,8 @@ function Layout() {
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken'); // accessToken 삭제
+        localStorage.removeItem('email');
+        localStorage.removeItem('refreshToken');
         navigate(PATHS.LOGIN);  // 로그인 페이지로 리다이렉트
     }
 
@@ -50,6 +53,7 @@ function Layout() {
                     <Route path="/board" element={<PrivateRoute element={BoardList}/>}/>
                     <Route path="/board/add" element={<PrivateRoute element={BoardCreate}/>}/>
                     <Route path="/board/:boardId" element={<PrivateRoute element={BoardDetail}/>}/>
+                    <Route path="/board/:boardId/edit" element={<PrivateRoute element={BoardEdit}/>}/>
                 </Routes>
             </main>
         </div>

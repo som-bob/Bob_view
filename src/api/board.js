@@ -50,6 +50,20 @@ export const addBoard = async (title, content) => {
     }
 };
 
+// 게시글 수정
+export const updateBoard = async (boardId, title, content) => {
+    try {
+        const response = await axiosInstance.put(`${API_BASE_URL}/board/${boardId}`, {
+            title,
+            content
+        });
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
 // 게시글 삭제
 export const deleteBoard = async (boardId) => {
     try {
@@ -59,12 +73,13 @@ export const deleteBoard = async (boardId) => {
         console.log('게시글 삭제 실패: ', error);
         throw error;
     }
-}
+};
 
 // 댓글 생성
-export const addComment = async (boardId, comment) => {
+export const addComment = async (boardId, parentCommentId, comment) => {
     try {
         const response = await axiosInstance.post(`${API_BASE_URL}/board/${boardId}/comment`, {
+            parentCommentId,
             comment
         });
         return response.data;
@@ -72,7 +87,7 @@ export const addComment = async (boardId, comment) => {
         console.log('댓글 생성 실패: ', error);
         throw error;
     }
-}
+};
 
 // 댓글 삭제
 export const deleteComment = async (commentId) => {
@@ -83,4 +98,17 @@ export const deleteComment = async (commentId) => {
         console.log('게시글 삭제 실패: ', error);
         throw error;
     }
-}
+};
+
+// 댓글 수정
+export const updateComment = async (commentId, comment) => {
+    try {
+        const response = await axiosInstance.put(`${API_BASE_URL}/board/comment/${commentId}`, {
+            comment
+        });
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
