@@ -6,7 +6,7 @@ import './boardDetail.css';
 
 
 function BoardEdit() {
-    const { boardId } = useParams();
+    const {boardId} = useParams();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ function BoardEdit() {
     }, [boardId]);
 
     const handleUpdateBoard = async () => {
-        if(! title || !content.trim()) {
+        if (!title || !content.trim()) {
             alert('제목과 내용을 모두 입력해주세요.');
             return;
         }
@@ -37,7 +37,7 @@ function BoardEdit() {
             alert('게시글이 수정되었습니다.')
             navigate(`${PATHS.BOARD_DETAIL(boardId)}`);
         } catch (error) {
-            console.error('게시글 수정 실패: ',error);
+            console.error('게시글 수정 실패: ', error);
             alert('게시글 수정에 실패했습니다.');
         }
     }
@@ -64,6 +64,7 @@ function BoardEdit() {
                     />
                 </div>
                 <button type="button" onClick={handleUpdateBoard}>완료</button>
+                <button type="button" onClick={() => navigate(`${PATHS.BOARD_DETAIL(boardId)}`)}>취소</button>
             </form>
         </div>
     );

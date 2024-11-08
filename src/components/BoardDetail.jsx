@@ -88,7 +88,11 @@ function BoardDetail() {
                     </>
                 )}
                 {/* 대댓글 입력 필드 */}
-                <button onClick={() => setReplayingCommentId(comment.commentId)}>대댓글</button>
+                {!comment.delete && (
+                    <div className="reply-input">
+                        <button onClick={() => setReplayingCommentId(comment.commentId)}>대댓글</button>
+                    </div>
+                )}
                 {replayingCommentId === comment.commentId && (
                     <div className="reply-input">
                         <textarea
@@ -100,7 +104,8 @@ function BoardDetail() {
                         <button onClick={() => {
                             setReplayingCommentId(null);
                             setReplyContent('');    // 입력 초기화
-                        }}>취소</button>
+                        }}>취소
+                        </button>
                     </div>
                 )}
 
@@ -133,7 +138,7 @@ function BoardDetail() {
 
     // 대댓글 추가 핸들러
     const handleAddReply = async (parentCommentId) => {
-        if(! replyContent.trim()) {
+        if (!replyContent.trim()) {
             alert('댓글을 입력해주세요.')
             return;
         }
