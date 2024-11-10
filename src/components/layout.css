@@ -4,6 +4,27 @@
     height: 100vh;
 }
 
+.layout-container:hover .top-menu {
+    transform: translateY(0);
+}
+
+.logout-button {
+    padding: 8px 12px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f4f4f4;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    margin-right: 20px; /* 로그아웃 버튼을 왼쪽으로 이동 */
+    width: 20%;
+}
+
+.logout-button:hover {
+    background-color: #ddd;
+}
+
 .top-menu {
     position: fixed;
     top: 0;
@@ -18,10 +39,6 @@
     transform: translateY(-100%);
     transition: transform 0.3s ease;
     z-index: 1000;
-}
-
-.layout-container:hover .top-menu {
-    transform: translateY(0);
 }
 
 .menu-items {
@@ -43,22 +60,6 @@
 
 .menu-items li.active,
 .menu-items li:hover {
-    background-color: #ddd;
-}
-
-.logout-button {
-    padding: 8px 12px;
-    font-size: 16px;
-    color: #333;
-    background-color: #f4f4f4;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 5px;
-    margin-right: 20px; /* 로그아웃 버튼을 왼쪽으로 이동 */
-}
-
-.logout-button:hover {
     background-color: #ddd;
 }
 

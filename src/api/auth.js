@@ -12,7 +12,6 @@ export const login = async (email, password) => {
             email,
             password
         });
-        localStorage.setItem("email", email);
         return response.data;
     } catch (error) {
         throw error;

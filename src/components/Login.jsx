@@ -13,6 +13,7 @@ function Login() {
         e.preventDefault(); // 기본 풀 동작 방지
         try {
             const response = await login(email, password);
+            localStorage.setItem("email", email);
             localStorage.setItem("accessToken", response.data.accessToken);
             localStorage.setItem("refreshToken", response.data.refreshToken);
             navigate('/main');

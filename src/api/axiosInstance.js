@@ -55,9 +55,10 @@ const reissueToken = async () => {
             },
         });
         // 새로운 accessToken, refreshToken 저장
-        const accessToken = response.data.accessToken;
+        const data = response.data.data;
+        const accessToken = data.accessToken;
         localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", response.data.refreshToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
 
         console.log('accessToken', accessToken);
         console.log('refreshToken', refreshToken);

@@ -31,7 +31,9 @@
 }
 
 .register-button {
-    display: flex;
+    display: inline-flex; /* Flexbox를 사용하여 텍스트를 가운데 정렬 */
+    justify-content: center; /* 텍스트를 수평 중앙에 정렬 */
+    align-items: center; /* 텍스트를 수직 중앙에 정렬 */
     flex-direction: column;
     gap: 10px;
     width: 300px;
