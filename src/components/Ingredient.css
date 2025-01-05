@@ -1,0 +1,72 @@
+.ingredient-add-container {
+    padding: 20px;
+    height: 30vh; /* 전체 화면 세로 길이의 20%로 제한 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 추가 */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ingredient-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5x5 그리드 */
+    gap: 15px;
+}
+
+.ingredient-item {
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ingredient-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ingredient-icon {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.ingredient-name {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.confirm-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-dialog p {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.confirm-dialog button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.confirm-dialog button:hover {
+    background: #f0f0f0;
+}

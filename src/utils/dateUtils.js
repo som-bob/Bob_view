@@ -11,3 +11,8 @@ export const formatDate = (date) => {
 
     return `${year}-${month}-${day}`;
 }
+
+// 오늘 날짜를 yyyy-MM-dd 형식으로 가져오는 함수
+export const getTodayDate = () => {
+    return formatDate(new Date());
+}

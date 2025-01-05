@@ -7,6 +7,33 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // 나의 냉장고 조회
 export const getRefrigerator = async () => {
-    const response = await axiosInstance.get(`${API_BASE_URL}/refrigerator`);
-    return response.data;
+    try {
+        const response = await axiosInstance.get(`${API_BASE_URL}/refrigerator`);
+        return response.data;
+    } catch (error) {
+        console.log('나의 냉장고 조회 실패: ', error);
+        throw error;
+    }
 }
+
+// 나의 냉장고 생성
+export const createRefrigerator = async (nickName) => {
+    try {
+        const response = await axiosInstance.post(`${API_BASE_URL}/refrigerator`, {
+            nickName
+        });
+        return response.data;
+    } catch (error) {
+        console.log('나의 냉장고 생성 실패: ', error);
+        throw error;
+    }
+}
+
+// 나의 냉장고 재료 추가
+export const addIngredientToRefrigerator = async (refrigeratorId, ingredientId, addedDate) => {
+    const response = await axiosInstance.post(`${API_BASE_URL}/refrigerator/${refrigeratorId}/ingredient`, {
+        ingredientId: ingredientId,
+        addedDate: addedDate,
+    });
+    return response.data;
+};

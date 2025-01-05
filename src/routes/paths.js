@@ -10,6 +10,8 @@ const PATHS = {
 
     // 나의 냉장고
     REFRIGERATOR_DETAIL: `/refrigerator`,
+    REFRIGERATOR_ADD: `/refrigerator/add`,
+
 };
 
 export default PATHS;
