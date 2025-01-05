@@ -7,6 +7,8 @@ import BoardDetail from "./BoardDetail.jsx";
 import BoardList from "./BoardList.jsx";
 import PATHS from "../routes/paths.js";
 import BoardEdit from "./BoardEdit.jsx";
+import RefrigeratorDetail from "./RefrigeratorDetail.jsx";
+import RefrigeratorCreate from "./RefrigeratorCreate.jsx";
 
 function Layout() {
     const [activeMenu, setActiveMenu] = useState('welcome'); // 현재 선택된 메뉴
@@ -24,6 +26,8 @@ function Layout() {
         setActiveMenu(menu); // 활성화된 메뉴 설정
         if (menu === 'board') {
             navigate(PATHS.BOARD_LIST); // '게시판' 클릭 시 게시판 목록 경로
+        } else if (menu === 'refrigerator') {
+            navigate(PATHS.REFRIGERATOR_DETAIL);    // 냉장고 상세 조회로 이동
         }
     };
 
@@ -38,8 +42,11 @@ function Layout() {
                     >
                         게시판
                     </li>
-                    <li>
-                        준비중
+                    <li
+                        className={activeMenu === 'refrigerator' ? 'active' : ''}
+                        onClick={() => changeActiveMenu('refrigerator')}
+                    >
+                        나의 냉장고
                     </li>
                 </ul>
                 <button className="logout-button" onClick={handleLogout}>
@@ -50,10 +57,17 @@ function Layout() {
             {/* 메인 컨텐츠 영역 */}
             <main className="main-content">
                 <Routes>
+                    {/*게시판 영역*/}
                     <Route path="/board" element={<PrivateRoute element={BoardList}/>}/>
                     <Route path="/board/add" element={<PrivateRoute element={BoardCreate}/>}/>
                     <Route path="/board/:boardId" element={<PrivateRoute element={BoardDetail}/>}/>
                     <Route path="/board/:boardId/edit" element={<PrivateRoute element={BoardEdit}/>}/>
+
+                    {/*나의 냉장고 관리 영역*/}
+                    <Route path="/refrigerator" element={<PrivateRoute element={RefrigeratorDetail}/>}/>
+                    <Route path="/refrigerator/add" element={<PrivateRoute element={RefrigeratorCreate}/>}/>
+
+
                 </Routes>
             </main>
         </div>
