@@ -1,10 +1,25 @@
-import { useState } from "react";
-import './ingredient.css'
+import {useCallback, useEffect, useState} from "react";
+import './ingredientAdd.css'
 import {getTodayDate} from "../utils/dateUtils.js";
+import {getAllIngredient} from "../api/ingredient.js";
 
-function IngredientAdd({ allIngredient, onAddIngredient }) {
+function IngredientAdd({ onAddIngredient }) {
+    const [allIngredient, setAllIngredient] = useState([]); // 모든 재료 정보
     const [selectedIngredient, setSelectedIngredient] = useState(null); // 선택된 재료
     const [isConfirmVisible, setIsConfirmVisible] = useState(false); // 확인 팝업 표시 여부
+
+    useEffect(() => {
+        fetchInitData();
+    }, []);
+
+    const fetchInitData = useCallback(async () => {
+        try {
+            const response = await getAllIngredient();
+            setAllIngredient(response.data);
+        } catch (error) {
+            console.error("데이터 조회 실패: ", error);
+        }
+    }, []);
 
     const handleIngredientClick = (ingredient) => {
         setSelectedIngredient(ingredient);
@@ -40,7 +55,6 @@ function IngredientAdd({ allIngredient, onAddIngredient }) {
 
     return (
         <div className="ingredient-add-container">
-            <h3>재료 추가</h3>
             <div className="ingredient-grid">{renderIngredientGrid()}</div>
 
             {isConfirmVisible && (

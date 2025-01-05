@@ -20,6 +20,8 @@
     border-radius: 8px;
     padding: 10px;
     transition: transform 0.2s, box-shadow 0.2s;
+    height: 100px; /* Fixed height for each tile */
+    overflow: hidden; /* Hide overflow content */
 }
 
 .ingredient-item:hover {

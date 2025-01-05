@@ -37,3 +37,16 @@ export const addIngredientToRefrigerator = async (refrigeratorId, ingredientId, 
     });
     return response.data;
 };
+
+// 나의 냉장고 재료 삭제
+export const deleteIngredientToRefrigerator = async (refrigeratorId, refrigeratorIngredientId) => {
+    const response = await axiosInstance.delete(
+        `${API_BASE_URL}/refrigerator/${refrigeratorId}/ingredient/${refrigeratorIngredientId}`);
+    return response.data;
+}
+
+// 나의 냉장고 재료 모두 삭제
+export const deleteAllIngredientToRefrigerator = async (refrigeratorId) => {
+    const response = await axiosInstance.delete(`${API_BASE_URL}/refrigerator/${refrigeratorId}/ingredients`);
+    return response.data;
+}
