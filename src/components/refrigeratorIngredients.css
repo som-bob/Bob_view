@@ -1,5 +1,6 @@
 .refrigerator-grid {
     display: grid;
+    /*width: 57vh;*/
     height: 20vh; /* 전체 화면 세로 길이의 20%로 제한 */
     grid-template-columns: repeat(5, 1fr); /* 5 columns */
     gap: 10px; /* space between tiles */

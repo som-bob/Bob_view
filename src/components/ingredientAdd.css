@@ -85,6 +85,7 @@
 }
 
 .search-container {
+    width: 100%;
     position: sticky; /* 스크롤과 독립적으로 고정 */
     top: 0; /* 컨테이너의 상단에 고정 */
     background-color: white; /* 배경색 지정 */

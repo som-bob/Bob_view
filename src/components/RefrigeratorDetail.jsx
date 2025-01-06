@@ -87,18 +87,22 @@ function RefrigeratorDetail() {
         <div>
             <h2>{refrigerator.nickName}</h2>
             <div>
-                <h3>냉장고 재료</h3>
                 <div>
-                    <RefrigeratorIngredients
-                        ingredients={refrigerator.ingredients}
-                        onDeleteIngredient={handleDeleteIngredient}
-                    />
+                    <h3>냉장고 재료</h3>
+                    <div>
+                        <RefrigeratorIngredients
+                            ingredients={refrigerator.ingredients}
+                            onDeleteIngredient={handleDeleteIngredient}
+                        />
+                    </div>
                 </div>
-                <h3>재료 추가</h3>
                 <div>
-                    <IngredientAdd
-                        onAddIngredient={handleAddIngredient}
-                    />
+                    <h3>재료 추가</h3>
+                    <div>
+                        <IngredientAdd
+                            onAddIngredient={handleAddIngredient}
+                        />
+                    </div>
                 </div>
                 <div>
                     <button onClick={handleIngredientClick}>냉장고 비우기</button>
