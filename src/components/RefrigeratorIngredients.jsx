@@ -46,13 +46,16 @@ function RefrigeratorIngredients({ingredients, onDeleteIngredient}) {
                 {renderTiles()}
             </div>
             {isConfirmVisible && (
-                <div className="confirm-dialog">
-                    <p>
-                        '{selectedIngredient?.ingredientName}' 재료를 삭제 하시겠습니까?
-                    </p>
-                    <button onClick={() => handleConfirm(true)}>네</button>
-                    <button onClick={() => handleConfirm(false)}>아니요</button>
-                </div>
+                <>
+                    <div className="overlay"></div>
+                    <div className="confirm-dialog">
+                        <p>
+                            '{selectedIngredient?.ingredientName}' 재료를 삭제 하시겠습니까?
+                        </p>
+                        <button onClick={() => handleConfirm(true)}>네</button>
+                        <button onClick={() => handleConfirm(false)}>아니요</button>
+                    </div>
+                </>
             )}
         </div>
     );

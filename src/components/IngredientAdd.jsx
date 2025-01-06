@@ -3,7 +3,7 @@ import './ingredientAdd.css'
 import {getTodayDate} from "../utils/dateUtils.js";
 import {getAllIngredient} from "../api/ingredient.js";
 
-function IngredientAdd({ onAddIngredient }) {
+function IngredientAdd({onAddIngredient}) {
     const [allIngredient, setAllIngredient] = useState([]); // 모든 재료 정보
     const [selectedIngredient, setSelectedIngredient] = useState(null); // 선택된 재료
     const [isConfirmVisible, setIsConfirmVisible] = useState(false); // 확인 팝업 표시 여부
@@ -58,13 +58,16 @@ function IngredientAdd({ onAddIngredient }) {
             <div className="ingredient-grid">{renderIngredientGrid()}</div>
 
             {isConfirmVisible && (
-                <div className="confirm-dialog">
-                    <p>
-                        '{selectedIngredient?.ingredientName}' 재료를 추가 하시겠습니까?
-                    </p>
-                    <button onClick={() => handleConfirm(true)}>네</button>
-                    <button onClick={() => handleConfirm(false)}>아니요</button>
-                </div>
+                <>
+                    <div className="overlay"></div>
+                    <div className="confirm-dialog">
+                        <p>
+                            '{selectedIngredient?.ingredientName}' 재료를 추가 하시겠습니까?
+                        </p>
+                        <button onClick={() => handleConfirm(true)}>네</button>
+                        <button onClick={() => handleConfirm(false)}>아니요</button>
+                    </div>
+                </>
             )}
         </div>
     );
