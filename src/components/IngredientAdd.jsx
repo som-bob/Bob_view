@@ -2,6 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 import './ingredientAdd.css';
 import {getTodayDate} from "../utils/dateUtils.js";
 import {getAllIngredient} from "../api/ingredient.js";
+import {getDefaultIngredientImage} from "../utils/imageUtils.js";
 
 function IngredientAdd({onAddIngredient}) {
     const [allIngredient, setAllIngredient] = useState([]); // 모든 재료 정보
@@ -61,11 +62,13 @@ function IngredientAdd({onAddIngredient}) {
                 title={ingredient.ingredientName} // 툴팁에 재료 이름 표시
             >
                 <img
-                    src={ingredient.imageUrl}
+                    src={getDefaultIngredientImage(ingredient.imageUrl)}
                     alt={ingredient.ingredientName}
                     className="ingredient-icon"
                 />
-                <p className="ingredient-name">{ingredient.ingredientName}</p>
+                <div className="ingredient-info">
+                    <p className="ingredient-name">{ingredient.ingredientName}</p>
+                </div>
             </div>
         ));
     };
@@ -78,6 +81,7 @@ function IngredientAdd({onAddIngredient}) {
                     type="text"
                     value={searchTerm}
                     onChange={handleSearch}
+                    onKeyDown={handleSearch}
                     placeholder="재료 검색"
                     className="search-input"
                 />

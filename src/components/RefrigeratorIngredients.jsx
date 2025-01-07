@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import "./refrigeratorIngredients.css";
+import {getDefaultIngredientImage} from "../utils/imageUtils.js";
 
 function RefrigeratorIngredients({ingredients, onDeleteIngredient}) {
     const [selectedIngredient, setSelectedIngredient] = useState(null); // 선택된 재료
@@ -28,7 +29,7 @@ function RefrigeratorIngredients({ingredients, onDeleteIngredient}) {
                  onClick={() => handleIngredientClick(ingredient)}
             >
                 <img
-                    src={ingredient.ingredientUrl}
+                    src={getDefaultIngredientImage(ingredient.ingredientUrl)}
                     alt={ingredient.ingredientName}
                     className="ingredient-image"
                 />
