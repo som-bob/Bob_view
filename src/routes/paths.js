@@ -12,6 +12,9 @@ const PATHS = {
     REFRIGERATOR_DETAIL: `/refrigerator`,
     REFRIGERATOR_ADD: `/refrigerator/add`,
 
+    // 레시피
+    RECIPE_LIST: '/recipe',
+
 };
 
 export default PATHS;

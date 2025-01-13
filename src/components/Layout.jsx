@@ -2,13 +2,14 @@ import React, {useState} from 'react';
 import './layout.css';
 import {Route, Routes, useNavigate} from "react-router-dom";
 import PrivateRoute from "./PrivateRoute.jsx";
-import BoardCreate from "./BoardCreate.jsx";
-import BoardDetail from "./BoardDetail.jsx";
-import BoardList from "./BoardList.jsx";
+import BoardCreate from "./board/BoardCreate.jsx";
+import BoardDetail from "./board/BoardDetail.jsx";
+import BoardList from "./board/BoardList.jsx";
 import PATHS from "../routes/paths.js";
-import BoardEdit from "./BoardEdit.jsx";
-import RefrigeratorDetail from "./RefrigeratorDetail.jsx";
-import RefrigeratorCreate from "./RefrigeratorCreate.jsx";
+import BoardEdit from "./board/BoardEdit.jsx";
+import RefrigeratorDetail from "./refrigerator/RefrigeratorDetail.jsx";
+import RefrigeratorCreate from "./refrigerator/RefrigeratorCreate.jsx";
+import RecipeList from "./recipe/RecipeList.jsx";
 
 function Layout() {
     const [activeMenu, setActiveMenu] = useState('welcome'); // 현재 선택된 메뉴
@@ -24,10 +25,26 @@ function Layout() {
     // 상단 메뉴 클릭 시 메뉴에 따른 경로 이동
     const changeActiveMenu = (menu) => {
         setActiveMenu(menu); // 활성화된 메뉴 설정
-        if (menu === 'board') {
-            navigate(PATHS.BOARD_LIST); // '게시판' 클릭 시 게시판 목록 경로
-        } else if (menu === 'refrigerator') {
-            navigate(PATHS.REFRIGERATOR_DETAIL);    // 냉장고 상세 조회로 이동
+        switch (menu) {
+            case 'board': {
+                // 게시판 목록 경로
+                navigate(PATHS.BOARD_LIST);
+                break;
+            }
+            case 'refrigerator' : {
+                // 냉장고 상세 조회로 이동
+                navigate(PATHS.REFRIGERATOR_DETAIL);
+                break;
+            }
+            case 'recipe' : {
+                // 레시피 리스트로 이동
+                navigate(PATHS.RECIPE_LIST);
+                break;
+            }
+            default : {
+                setActiveMenu('welcome');
+                break;
+            }
         }
     };
 
@@ -48,6 +65,12 @@ function Layout() {
                     >
                         나의 냉장고
                     </li>
+                    <li
+                        className={activeMenu === 'recipe' ? 'active': ''}
+                        onClick={() => changeActiveMenu('recipe')}
+                    >
+                        레시피
+                    </li>
                 </ul>
                 <button className="logout-button" onClick={handleLogout}>
                     로그아웃
@@ -67,6 +90,8 @@ function Layout() {
                     <Route path="/refrigerator" element={<PrivateRoute element={RefrigeratorDetail}/>}/>
                     <Route path="/refrigerator/add" element={<PrivateRoute element={RefrigeratorCreate}/>}/>
 
+                    {/* 레시피 영역 */}
+                    <Route path="/recipe" element={<PrivateRoute element={RecipeList} />} />
 
                 </Routes>
             </main>

@@ -1,8 +1,8 @@
 import {useCallback, useEffect, useState} from "react";
 import './ingredientAdd.css';
-import {getTodayDate} from "../utils/dateUtils.js";
-import {getAllIngredient} from "../api/ingredient.js";
-import {getDefaultIngredientImage} from "../utils/imageUtils.js";
+import {getTodayDate} from "../../utils/dateUtils.js";
+import {getAllIngredient} from "../../api/ingredient.js";
+import {getDefaultIngredientImage} from "../../utils/imageUtils.js";
 
 function IngredientAdd({onAddIngredient}) {
     const [allIngredient, setAllIngredient] = useState([]); // 모든 재료 정보

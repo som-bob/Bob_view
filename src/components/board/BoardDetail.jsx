@@ -1,8 +1,8 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {addComment, deleteBoard, deleteComment, getBoard, updateComment} from "../api/board.js";
+import {addComment, deleteBoard, deleteComment, getBoard, updateComment} from "../../api/board.js";
 import './boardDetail.css';
-import Paths from "../routes/paths.js";
+import Paths from "../../routes/paths.js";
 
 function BoardDetail() {
     const {boardId} = useParams();

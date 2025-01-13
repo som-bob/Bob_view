@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import PATHS from "../routes/paths.js";
-import {createRefrigerator} from "../api/refrigerator.js";
+import PATHS from "../../routes/paths.js";
+import {createRefrigerator} from "../../api/refrigerator.js";
 
 function RefrigeratorCreate () {
     const navigate = useNavigate();

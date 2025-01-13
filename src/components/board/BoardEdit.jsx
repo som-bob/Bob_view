@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {getBoard, updateBoard} from "../api/board.js";
-import PATHS from "../routes/paths.js";
+import {getBoard, updateBoard} from "../../api/board.js";
+import PATHS from "../../routes/paths.js";
 import './boardDetail.css';
 
 

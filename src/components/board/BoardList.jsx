@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { getBoardList } from '../api/board';
+import { getBoardList } from '../../api/board.js';
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../utils/dateUtils';
-import './boardList.css';
-import PATHS from "../routes/paths.js";
+import { formatDate } from '../../utils/dateUtils.js';
+import './BoardList.css';
+import PATHS from "../../routes/paths.js";
 
 function BoardList() {
     const [boards, setBoards] = useState([]); // 게시글 목록

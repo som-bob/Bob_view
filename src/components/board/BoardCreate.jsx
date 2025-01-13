@@ -1,8 +1,8 @@
 import {useState} from "react";
 import './boardCreate.css';
 import {useNavigate} from "react-router-dom";
-import {addBoard} from "../api/board.js";
-import PATHS from "../routes/paths.js";
+import {addBoard} from "../../api/board.js";
+import PATHS from "../../routes/paths.js";
 
 function BoardCreate() {
     const [title, setTitle] = useState('');

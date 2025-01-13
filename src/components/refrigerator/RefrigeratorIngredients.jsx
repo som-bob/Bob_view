@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./refrigeratorIngredients.css";
-import {getDefaultIngredientImage} from "../utils/imageUtils.js";
+import {getDefaultIngredientImage} from "../../utils/imageUtils.js";
 
 function RefrigeratorIngredients({ingredients, onDeleteIngredient}) {
     const [selectedIngredient, setSelectedIngredient] = useState(null); // 선택된 재료

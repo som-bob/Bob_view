@@ -5,8 +5,8 @@ import {
     deleteAllIngredientToRefrigerator,
     deleteIngredientToRefrigerator,
     getRefrigerator
-} from "../api/refrigerator.js";
-import PATHS from "../routes/paths.js";
+} from "../../api/refrigerator.js";
+import PATHS from "../../routes/paths.js";
 import IngredientAdd from "./IngredientAdd.jsx";
 import RefrigeratorIngredients from "./RefrigeratorIngredients.jsx";
 
@@ -74,7 +74,7 @@ function RefrigeratorDetail() {
         setIsConfirmVisible(false); // 팝업 닫기
     };
 
-    const handleIngredientClick = (ingredient) => {
+    const handleIngredientClick = () => {
         setIsConfirmVisible(true); // 확인 팝업 표시
     };
 
