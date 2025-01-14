@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../utils/dateUtils.js';
 import './BoardList.css';
 import PATHS from "../../routes/paths.js";
-import {Pagination} from "../../utils/pageUtils.js";
+import {Pagination} from "../../utils/pageUtils.jsx";
 
 function BoardList() {
     const [boards, setBoards] = useState([]); // 게시글 목록

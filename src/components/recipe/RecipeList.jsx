@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getRecipe } from "../../api/recipe";
-import {Pagination} from "../../utils/pageUtils.js";
+import {Pagination} from "../../utils/pageUtils.jsx";
 
 function RecipeList() {
     const [recipes, setRecipes] = useState([]); // 레시피 목록
