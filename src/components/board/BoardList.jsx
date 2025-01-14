@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../utils/dateUtils.js';
 import './BoardList.css';
 import PATHS from "../../routes/paths.js";
+import {Pagination} from "../../utils/pageUtils.js";
 
 function BoardList() {
     const [boards, setBoards] = useState([]); // 게시글 목록
@@ -164,28 +165,5 @@ function BoardItem({ board, onClick }) {
             <p>작성자: {board.regId}</p>
             <p>작성일: {board.regDate}</p>
         </li>
-    );
-}
-
-// 페이지네이션 컴포넌트
-function Pagination({ currentPage, totalPages, onPageChange, getPageNumbers }) {
-    return (
-        <div className="pagination">
-            <button onClick={() => onPageChange(0)} disabled={currentPage === 0}>
-                첫 페이지로
-            </button>
-            {getPageNumbers().map((page) => (
-                <button
-                    key={page}
-                    onClick={() => onPageChange(page)}
-                    className={`page-number ${page === currentPage ? 'active' : ''}`}
-                >
-                    {page + 1}
-                </button>
-            ))}
-            <button onClick={() => onPageChange(totalPages - 1)} disabled={currentPage === totalPages - 1}>
-                마지막 페이지로
-            </button>
-        </div>
     );
 }
