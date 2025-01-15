@@ -1,0 +1,84 @@
+/* 전체 레시피 리스트 컨테이너 */
+.recipe-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+/* 레시피 카드 */
+.recipe-card {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 레시피 이미지 */
+.recipe-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* 레시피 내용 컨테이너 */
+.recipe-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+/* 레시피 이름 */
+.recipe-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 레시피 설명 */
+.recipe-description {
+    color: #666;
+    line-height: 1.5;
+    margin: 5px 0;
+}
+
+/* 난이도와 인분 */
+.recipe-difficulty, .recipe-servings {
+    color: #333;
+    margin: 5px 0;
+}
+
+/* 재료 제목 */
+.recipe-ingredients-title {
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* 재료 리스트 */
+.recipe-ingredients {
+    display: flex; /* Flexbox로 설정 */
+    flex-wrap: wrap; /* 가로 길이가 부족하면 다음 줄로 이동 */
+    gap: 10px; /* 아이템 간의 간격 */
+    padding: 0;
+    margin: 10px 0;
+    list-style: none; /* 기본 불릿 포인트 제거 */
+}
+
+/* 재료 아이템 */
+.ingredient-item {
+    height: fit-content;
+    padding: 8px 12px;
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    color: #333;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}

@@ -6,7 +6,7 @@ import axiosInstance from "./axiosInstance.js";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // 레시피 목록 조뢰
-export const getRecipe = async (page, recipeSearch) => {
+export const getRecipe = async (page, recipeSearch, ingredients) => {
     const pageSize = 10; // 페이지당 게시글 수
 
     // 검색 파라미터를
@@ -15,8 +15,17 @@ export const getRecipe = async (page, recipeSearch) => {
         size: pageSize
     });
 
+    // ingredientId 리스트 추출
+    let ingredientIds = [];
+    if(Array.isArray(ingredients) && ingredients.length > 0) {
+        ingredientIds = ingredients.map((ingredient) => ingredient.ingredientId)
+    }
+
     const response = await axiosInstance.post(`${API_BASE_URL}/recipe?${params.toString()}`, {
-        recipeSearch
+        recipeName: recipeSearch.recipeName,
+        recipeDescription: recipeSearch.recipeDescription,
+        ingredientIds: ingredientIds,
+        // difficulty: recipeSearch.difficulty
     });
     return response.data;
 }
