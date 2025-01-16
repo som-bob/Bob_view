@@ -3,6 +3,7 @@ import {getRecipe, getRecipeDifficulty} from "../../api/recipe";
 import {Pagination} from "../../utils/pageUtils.jsx";
 import {getAllIngredients} from "../../api/refrigerator.js";
 import "./recipeList.css";
+import "./recipeSearchFields.css"
 
 function RecipeList() {
     const [recipes, setRecipes] = useState([]); // 레시피 목록
@@ -22,7 +23,7 @@ function RecipeList() {
         async (page = 0) => {
             try {
                 const response = await getRecipe(page, recipeSearch, ingredients);
-                const { content, totalPages } = response.data;
+                const {content, totalPages} = response.data;
 
                 setRecipes(content);
                 setTotalPages(totalPages);
@@ -43,13 +44,15 @@ function RecipeList() {
 
     const renderTiles = () => {
         if (!ingredients || ingredients.length === 0) {
-            return <p>선택된 재료가 없습니다.</p>;
+            return <div>
+                <p>선택된 재료가 없습니다.</p>
+            </div>;
         }
 
         return ingredients.map((ingredient) => (
-            <div className="ingredient-tile" key={ingredient.ingredientId}>
-                <div className="ingredient-info">
-                    <p className="ingredient-name">{ingredient.ingredientName}</p>
+            <div key={ingredient.ingredientId}>
+                <div>
+                    <p>{ingredient.ingredientName}</p>
                 </div>
             </div>
         ));
@@ -58,11 +61,11 @@ function RecipeList() {
     // 페이지나 검색 조건 변경 시 데이터를 새로 로드
     useEffect(() => {
         fetchRecipeList(currentPage);
-    }, [currentPage, fetchRecipeList]);
+    }, [currentPage, fetchRecipeList, ingredients, recipeSearch]);
 
     // 검색 조건 변경 핸들러
     const handleSearchChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         // name이 유효한 경우만 상태를 업데이트
         if (name) {
             setRecipeSearch((prevParams) => ({
@@ -95,7 +98,7 @@ function RecipeList() {
         const range = 2; // 현재 페이지를 기준으로 표시할 페이지 수
         const startPage = Math.max(0, currentPage - range);
         const endPage = Math.min(totalPages - 1, currentPage + range);
-        return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+        return Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i);
     };
 
     const getRefrigeratorIngredient = async () => {
@@ -114,23 +117,31 @@ function RecipeList() {
         }
     }
 
+    const clearIngredients = () => {
+        setIngredients([]);
+    }
+
 
     return (
         <div>
-            <h1>레시피 목록</h1>
-
             {/* 검색 필드 */}
-            <div className="refrigerator-grid">
-                {renderTiles()}
+            <div className="recipe-search">
+                <div className="recipe-ingredients-search">
+                    {renderTiles()}
+                </div>
+                <div className="recipe-ingredients-search-button">
+                    <button onClick={clearIngredients}>재료 비우기</button>
+                    <button onClick={getRefrigeratorIngredient}>내 냉장고 재료</button>
+                    <button>재료 추가하기</button>
+                </div>
+                <SearchFields
+                    recipeSearch={recipeSearch}
+                    difficultiesSearch={difficulties}
+                    onSearchChange={handleSearchChange}
+                    onSearch={handleSearch}
+                    onKeyDown={handleKeyDown}
+                />
             </div>
-            <button onClick={getRefrigeratorIngredient}>내 냉장고 재료 가져오기</button>
-            <SearchFields
-                recipeSearch={recipeSearch}
-                selectValuse = {difficulties}
-                onSearchChange={handleSearchChange}
-                onSearch={handleSearch}
-                onKeyDown={handleKeyDown}
-            />
 
 
             {/* 레시피 리스트 */}
@@ -174,7 +185,7 @@ function RecipeList() {
 export default RecipeList;
 
 // 검색 필드 컴포넌드
-function SearchFields({recipeSearch, selectValuse, onSearchChange, onSearch, onKeyDown}) {
+function SearchFields({recipeSearch, difficultiesSearch, onSearchChange, onSearch, onKeyDown}) {
     return (
         <div>
             <input
@@ -203,7 +214,7 @@ function SearchFields({recipeSearch, selectValuse, onSearchChange, onSearch, onK
                     <option value="">
                         난이도를 선택하세요.
                     </option>
-                    {selectValuse.map((difficulty) => (
+                    {difficultiesSearch.map((difficulty) => (
                         <option key={difficulty.code} value={difficulty.code}>
                             {difficulty.title}
                         </option>

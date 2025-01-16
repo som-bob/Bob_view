@@ -1,0 +1,23 @@
+.recipe-search {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.recipe-ingredients-search {
+    display: flex; /* Flexbox로 설정 */
+    flex-wrap: wrap; /* 가로 길이가 부족하면 다음 줄로 이동 */
+    gap: 10px; /* 아이템 간의 간격 */
+    padding: 0;
+    margin: 10px 0;
+    list-style: none; /* 기본 불릿 포인트 제거 */
+}
+
+.recipe-ingredients-search-button {
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    display: flex;
+}
