@@ -39,7 +39,7 @@ function RecipeList() {
                 console.error("난이도 조회에 실패했습니다.", error);
             }
         },
-        [recipeSearch]
+        [recipeSearch, ingredients]
     );
 
     const renderTiles = () => {
@@ -61,7 +61,7 @@ function RecipeList() {
     // 페이지나 검색 조건 변경 시 데이터를 새로 로드
     useEffect(() => {
         fetchRecipeList(currentPage);
-    }, [currentPage, fetchRecipeList, ingredients, recipeSearch]);
+    }, [currentPage, ingredients, recipeSearch]);
 
     // 검색 조건 변경 핸들러
     const handleSearchChange = (e) => {
