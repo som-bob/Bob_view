@@ -1,8 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {getRecipe} from "../../api/recipe";
 import {Pagination} from "../../utils/pageUtils.jsx";
-import {getDefaultIngredientImage} from "../../utils/imageUtils.js";
-import {getRefrigerator} from "../../api/refrigerator.js";
+import {getAllIngredients} from "../../api/refrigerator.js";
 import "./recipeList.css";
 
 function RecipeList() {
@@ -35,17 +34,13 @@ function RecipeList() {
     );
 
     const renderTiles = () => {
+        console.log(ingredients);
         if (!ingredients || ingredients.length === 0) {
             return <p>선택된 재료가 없습니다.</p>;
         }
 
         return ingredients.map((ingredient) => (
             <div className="ingredient-tile" key={ingredient.ingredientId}>
-                <img
-                    src={getDefaultIngredientImage(ingredient.ingredientUrl)}
-                    alt={ingredient.ingredientName}
-                    className="ingredient-image"
-                />
                 <div className="ingredient-info">
                     <p className="ingredient-name">{ingredient.ingredientName}</p>
                 </div>
@@ -93,19 +88,16 @@ function RecipeList() {
         return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
     };
 
-    // TODO 모든 재료 불러와 추가 하는 것도 해야됨
-
+    // TODO 냉장고 없는 사람 계정으로 테스트 해볼것
     const getRefrigeratorIngredient = async () => {
         try {
-            // TODO 이걸로 조회하면 안됨. 내 냉장고의 순수 Ingrediendt의 id, name을 조회해야한다
-            const response = await getRefrigerator()
+            const response = await getAllIngredients();
             const data = response.data;
 
-            setIngredients(data.ingredients);
+            setIngredients(data);
         } catch (error) {
-            console.log(error);
             if (error.status === 400) {
-                alert("냉장고가 없습니다. 냉장고를 먼저 만들어주세요.")
+                alert(error.errorMessage);
             } else {
                 alert("냉장고 재료 가져오기에 실패했습니다.")
             }

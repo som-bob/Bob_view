@@ -50,3 +50,11 @@ export const deleteAllIngredientToRefrigerator = async (refrigeratorId) => {
     const response = await axiosInstance.delete(`${API_BASE_URL}/refrigerator/${refrigeratorId}/ingredients`);
     return response.data;
 }
+
+// 나의 냉장고 재료 조회
+export const getAllIngredients = async () => {
+    const response = await axiosInstance.get(`${API_BASE_URL}/refrigerator/ingredients`);
+    return response.data;
+}
+
+
