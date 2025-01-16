@@ -98,7 +98,6 @@ function RecipeList() {
         return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
     };
 
-    // TODO 냉장고 없는 사람 계정으로 테스트 해볼것
     const getRefrigeratorIngredient = async () => {
         try {
             const response = await getAllIngredients();
@@ -201,7 +200,7 @@ function SearchFields({recipeSearch, selectValuse, onSearchChange, onSearch, onK
                     value={recipeSearch.difficulty} // 현재 선택된 값
                     onChange={onSearchChange} // 선택 변경 핸들러
                 >
-                    <option value="" disabled>
+                    <option value="">
                         난이도를 선택하세요.
                     </option>
                     {selectValuse.map((difficulty) => (
