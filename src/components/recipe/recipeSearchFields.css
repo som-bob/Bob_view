@@ -8,7 +8,13 @@
     background-color: #f9f9f9;
 }
 
-.recipe-ingredients-search {
+.recipe-ingredients-search-button {
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    display: flex;
+}
+
+/* 재료 리스트 */
+.search-ingredients {
     display: flex; /* Flexbox로 설정 */
     flex-wrap: wrap; /* 가로 길이가 부족하면 다음 줄로 이동 */
     gap: 10px; /* 아이템 간의 간격 */
@@ -17,7 +23,15 @@
     list-style: none; /* 기본 불릿 포인트 제거 */
 }
 
-.recipe-ingredients-search-button {
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    display: flex;
+/* 재료 아이템 */
+.search-ingredient-item {
+    height: fit-content; /* 높이를 내용에 맞게 조정 */
+    padding: 0 12px; /* 상하 공백을 줄임 (8px -> 4px) */
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1; /* 텍스트 라인 간격 최소화 */
+    display: inline-block; /* 아이템 크기 조정 */
 }

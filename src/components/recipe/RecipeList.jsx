@@ -45,16 +45,14 @@ function RecipeList() {
     const renderTiles = () => {
         if (!ingredients || ingredients.length === 0) {
             return <div>
-                <p>선택된 재료가 없습니다.</p>
+                <p>레시피에 들어가는 재료를 함께 검색해보세요.(재료 추가 버튼)</p>
             </div>;
         }
 
         return ingredients.map((ingredient) => (
-            <div key={ingredient.ingredientId}>
-                <div>
-                    <p>{ingredient.ingredientName}</p>
-                </div>
-            </div>
+            <li className="search-ingredient-item" key={ingredient.ingredientId}>
+                <p>{ingredient.ingredientName}</p>
+            </li>
         ));
     };
 
@@ -126,9 +124,9 @@ function RecipeList() {
         <div>
             {/* 검색 필드 */}
             <div className="recipe-search">
-                <div className="recipe-ingredients-search">
+                <ul className="search-ingredients">
                     {renderTiles()}
-                </div>
+                </ul>
                 <div className="recipe-ingredients-search-button">
                     <button onClick={clearIngredients}>재료 비우기</button>
                     <button onClick={getRefrigeratorIngredient}>내 냉장고 재료</button>
@@ -138,11 +136,10 @@ function RecipeList() {
                     recipeSearch={recipeSearch}
                     difficultiesSearch={difficulties}
                     onSearchChange={handleSearchChange}
-                    onSearch={handleSearch}
                     onKeyDown={handleKeyDown}
                 />
+                <button onClick={handleSearch}>검색</button>
             </div>
-
 
             {/* 레시피 리스트 */}
             <div className="recipe-list">
@@ -185,7 +182,7 @@ function RecipeList() {
 export default RecipeList;
 
 // 검색 필드 컴포넌드
-function SearchFields({recipeSearch, difficultiesSearch, onSearchChange, onSearch, onKeyDown}) {
+function SearchFields({recipeSearch, difficultiesSearch, onSearchChange, onKeyDown}) {
     return (
         <div>
             <input
@@ -221,7 +218,6 @@ function SearchFields({recipeSearch, difficultiesSearch, onSearchChange, onSearc
                     ))}
                 </select>
             </div>
-            <button onClick={onSearch}>검색</button>
         </div>
     );
 }
