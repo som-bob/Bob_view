@@ -3,27 +3,30 @@ import {getRecipe, getRecipeDifficulty} from "../../api/recipe";
 import {Pagination} from "../../utils/pageUtils.jsx";
 import {getAllIngredients} from "../../api/refrigerator.js";
 import "./recipeList.css";
-import "./recipeSearchFields.css"
+import "./recipeSearchFields.css";
 
 function RecipeList() {
     const [recipes, setRecipes] = useState([]); // 레시피 목록
-    const [difficulties, setDifficulties] = useState([]);   // 난이도 목록
+    const [difficulties, setDifficulties] = useState([]); // 난이도 목록
     const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
     const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
-    const [ingredients, setIngredients] = useState(null); // 검색 재료 리스트
-    const [recipeSearch, setRecipeSearch] = useState({      // 검색 조건
+    const [ingredients, setIngredients] = useState([]); // 검색 재료 리스트
+    const [recipeSearch, setRecipeSearch] = useState({ // 검색 조건
         recipeName: '',
         recipeDescription: '',
         difficulty: '',
         ingredientIds: '',
     });
 
+    // 모달 상태 관리
+    const [selectedIngredient, setSelectedIngredient] = useState(null);
+
     // 레시피 목록, 난이도를 가져오는 함수
     const fetchRecipeList = useCallback(
         async (page = 0) => {
             try {
                 const response = await getRecipe(page, recipeSearch, ingredients);
-                const {content, totalPages} = response.data;
+                const { content, totalPages } = response.data;
 
                 setRecipes(content);
                 setTotalPages(totalPages);
@@ -42,15 +45,39 @@ function RecipeList() {
         [recipeSearch, ingredients]
     );
 
+    // 재료 제거 함수
+    const removeIngredient = () => {
+        if (selectedIngredient) {
+            setIngredients((prevIngredients) =>
+                prevIngredients.filter((ingredient) => ingredient.ingredientId !== selectedIngredient.ingredientId)
+            );
+            setSelectedIngredient(null); // 모달 닫기
+        }
+    };
+
+    const handleIngredientClick = (ingredient) => {
+        setSelectedIngredient(ingredient); // 모달 열기
+    };
+
+    const closeModal = () => {
+        setSelectedIngredient(null); // 모달 닫기
+    };
+
     const renderTiles = () => {
         if (!ingredients || ingredients.length === 0) {
-            return <div>
-                <p>레시피에 들어가는 재료를 함께 검색해보세요.(재료 추가 버튼)</p>
-            </div>;
+            return (
+                <div>
+                    <p>레시피에 들어가는 재료를 함께 검색해보세요.(재료 추가 버튼)</p>
+                </div>
+            );
         }
 
         return ingredients.map((ingredient) => (
-            <li className="search-ingredient-item" key={ingredient.ingredientId}>
+            <li
+                className="search-ingredient-item"
+                key={ingredient.ingredientId}
+                onClick={() => handleIngredientClick(ingredient)} // 클릭 시 모달 열기
+            >
                 <p>{ingredient.ingredientName}</p>
             </li>
         ));
@@ -63,7 +90,7 @@ function RecipeList() {
 
     // 검색 조건 변경 핸들러
     const handleSearchChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         // name이 유효한 경우만 상태를 업데이트
         if (name) {
             setRecipeSearch((prevParams) => ({
@@ -96,7 +123,7 @@ function RecipeList() {
         const range = 2; // 현재 페이지를 기준으로 표시할 페이지 수
         const startPage = Math.max(0, currentPage - range);
         const endPage = Math.min(totalPages - 1, currentPage + range);
-        return Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i);
+        return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
     };
 
     const getRefrigeratorIngredient = async () => {
@@ -110,15 +137,14 @@ function RecipeList() {
             if (error.status === 400) {
                 alert(responseData.errorMessage);
             } else {
-                alert("냉장고 재료 가져오기에 실패했습니다.")
+                alert("냉장고 재료 가져오기에 실패했습니다.");
             }
         }
-    }
+    };
 
     const clearIngredients = () => {
         setIngredients([]);
-    }
-
+    };
 
     return (
         <div>
@@ -175,6 +201,21 @@ function RecipeList() {
                 onPageChange={handlePageChange}
                 getPageNumbers={getPageNumbers}
             />
+
+            {/* 모달 */}
+            {selectedIngredient && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p>
+                            '{selectedIngredient.ingredientName}' 재료를 삭제하시겠습니까?
+                        </p>
+                        <div className="modal-actions">
+                            <button onClick={removeIngredient} className="button-primary">네</button>
+                            <button onClick={closeModal} className="button-secondary">아니요</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

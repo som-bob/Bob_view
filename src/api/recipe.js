@@ -15,9 +15,6 @@ export const getRecipe = async (page, recipeSearch, ingredients) => {
         size: pageSize
     });
 
-    console.log("ingredients");
-    console.log(ingredients);
-
     // ingredientId 리스트 추출
     let ingredientIds = [];
     if(Array.isArray(ingredients) && ingredients.length > 0) {
