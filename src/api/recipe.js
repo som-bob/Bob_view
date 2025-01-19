@@ -15,12 +15,16 @@ export const getRecipe = async (page, recipeSearch, ingredients) => {
         size: pageSize
     });
 
+    console.log("요청 재료");
+    console.log(ingredients);
     // ingredientId 리스트 추출
+
     let ingredientIds = [];
     if(Array.isArray(ingredients) && ingredients.length > 0) {
-        ingredientIds = ingredients.map((ingredient) => ingredient.ingredientId)
-
+        ingredientIds = ingredients.map((ingredient) => ingredient.ingredientId);
     }
+
+    console.log(ingredientIds);
 
     const response = await axiosInstance.post(`${API_BASE_URL}/recipe?${params.toString()}`, {
         recipeName: recipeSearch.recipeName,

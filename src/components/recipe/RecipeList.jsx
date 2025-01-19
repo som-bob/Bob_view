@@ -94,6 +94,7 @@ function RecipeList() {
                             <p className="recipe-ingredients-title">필요한 재료</p>
                             <ul className="recipe-ingredients">
                                 {recipe.ingredients.map((ingredient) => (
+                                    // TODO 클릭하면 재료 추가
                                     <li key={ingredient.id} className="ingredient-item">
                                         {ingredient.ingredientName}
                                     </li>
