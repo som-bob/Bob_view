@@ -51,7 +51,17 @@ function RecipeSearch({
             const response = await getAllIngredients();
             const data = response.data;
 
-            setIngredients(data);
+            setIngredients((prev) => {
+                // 기존 ingredients의 id를 Set으로 저장하여 중복 확인
+                const existingIds = new Set(prev.map((ingredient) => ingredient.ingredientId));
+
+                // 선택된 재료 중 기존에 없는 재료만 필터링
+                const newIngredients = data.filter(
+                    (ingredient) => ! existingIds.has(ingredient.ingredientId)
+                );
+
+                return [...prev, ...newIngredients];
+            });
         } catch (error) {
             const responseData = error.response.data;
             if (error.status === 400) {
@@ -138,7 +148,18 @@ function RecipeSearch({
 
     // 선택된 재료 추가
     const confirmAddIngredients = () => {
-        setIngredients((prev) => [...prev, ...selectedNewIngredients]);
+        // setIngredients((prev) => [...prev, ...selectedNewIngredients]);
+        setIngredients((prev) => {
+            // 기존 ingredients의 id를 Set으로 저장하여 중복 확인
+            const existingIds = new Set(prev.map((ingredient) => ingredient.ingredientId));
+
+            // 선택된 재료 중 기존에 없는 재료만 필터링
+            const newIngredients = selectedNewIngredients.filter(
+                (ingredient) => ! existingIds.has(ingredient.ingredientId)
+            );
+
+            return [...prev, ...newIngredients];
+        });
         setSearchTerm("");
         closeAddIngredientModal();
     };
@@ -150,8 +171,8 @@ function RecipeSearch({
 
             {/* 버튼 */}
             <div className="recipe-ingredients-search-button">
-                <button onClick={getRefrigeratorIngredient}>내 냉장고 재료</button>
-                <button onClick={openAddIngredientModal}>재료 추가하기</button>
+                <button onClick={getRefrigeratorIngredient}>내 냉장고 재료 추가</button>
+                <button onClick={openAddIngredientModal}>재료 추가</button>
                 <button onClick={clearIngredients}>재료 비우기</button>
             </div>
 
