@@ -41,7 +41,15 @@ function RecipeSearch({
 
     const handleSearchChange = (e) => {
         const { name, value } = e.target;
-        if (name) {
+
+        // `difficulty`가 변경된 경우 `code`로 객체 매핑
+        if (name === "difficulty") {
+            const selectedDifficulty = difficulties.find((d) => d.code === value);
+            setRecipeSearch((prev) => ({
+                ...prev,
+                difficulty: selectedDifficulty || "",
+            }));
+        } else {
             setRecipeSearch((prev) => ({ ...prev, [name]: value }));
         }
     };
@@ -195,7 +203,7 @@ function RecipeSearch({
                 <select
                     id="difficulty"
                     name="difficulty"
-                    value={recipeSearch.difficulty}
+                    value={recipeSearch.difficulty?.code || ""}
                     onChange={handleSearchChange}
                 >
                     <option value="">난이도를 선택하세요.</option>
