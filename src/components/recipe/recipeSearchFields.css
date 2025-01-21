@@ -61,6 +61,15 @@
     padding: 20px;
 }
 
+/* 버튼 영역 (항상 하단에 고정) */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd; /* 위쪽에 구분선 추가 */
+}
+
 /* 재료 리스트 (스크롤 가능한 영역) */
 .ingredient-list {
     /*flex: 1; !* 남은 공간을 차지 *!*/
@@ -85,13 +94,4 @@
 .ingredient-item.selected {
     background-color: #e0f7fa;
     border-color: #00796b;
-}
-
-/* 버튼 영역 (항상 하단에 고정) */
-.modal-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #ddd; /* 위쪽에 구분선 추가 */
 }

@@ -16,6 +16,7 @@ function RecipeList() {
         difficulty: "",
         ingredientIds: "",
     });
+    const [selectedIngredient, setSelectedIngredient] = useState(null); // 모달 상태 관리
 
     // 레시피 목록 가져오기
     const fetchRecipeList = useCallback(
@@ -43,7 +44,7 @@ function RecipeList() {
     // 페이지 변경
     useEffect(() => {
         fetchRecipeList(currentPage);
-    }, [currentPage, ingredients, recipeSearch]);
+    }, [currentPage, recipeSearch]);
 
     const handleSearch = () => {
         setCurrentPage(0);
@@ -62,6 +63,37 @@ function RecipeList() {
         const endPage = Math.min(totalPages - 1, currentPage + range);
         return Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i);
     };
+
+    const handleAddIngredient = (ingredient) => {
+        setSelectedIngredient(ingredient);  // 모달 열기
+    }
+
+    const CloseAddIngredientModal = () => {
+        setSelectedIngredient(null);    // 모달 닫기
+    }
+
+    // 재료 추가 함수
+    const addIngredient = () => {
+        setIngredients((prev) => {
+            // 기존 ingredients의 id를 Set으로 저장하여 중복 확인
+            const existingIds = new Set(prev.map((ingredient) => ingredient.ingredientId));
+
+            if(! existingIds.has(selectedIngredient.id)) {
+                const mappedData = {
+                    ingredientId: selectedIngredient.id, // id를 ingredientId로 변경
+                    ingredientName: selectedIngredient.ingredientName,
+                    ingredientDescription: selectedIngredient.ingredientDescription,
+                    imageUrl: selectedIngredient.imageUrl
+                };
+
+                return [...prev, mappedData];
+            } else {
+                return [...prev];
+            }
+        });
+
+        CloseAddIngredientModal();
+    }
 
     return (
         <div>
@@ -94,8 +126,8 @@ function RecipeList() {
                             <p className="recipe-ingredients-title">필요한 재료</p>
                             <ul className="recipe-ingredients">
                                 {recipe.ingredients.map((ingredient) => (
-                                    // TODO 클릭하면 재료 추가
-                                    <li key={ingredient.id} className="ingredient-item">
+                                    <li onClick={() => handleAddIngredient(ingredient)} key={ingredient.id}
+                                        className="ingredient-item">
                                         {ingredient.ingredientName}
                                     </li>
                                 ))}
@@ -112,6 +144,25 @@ function RecipeList() {
                 onPageChange={handlePageChange}
                 getPageNumbers={getPageNumbers}
             />
+
+            {/* 재료 삭제 모달 */}
+            {selectedIngredient && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p>
+                            '{selectedIngredient.ingredientName}' 재료를 추가 하시겠습니까?
+                        </p>
+                        <div className="modal-actions">
+                            <button onClick={addIngredient} className="button-primary">
+                                네
+                            </button>
+                            <button onClick={CloseAddIngredientModal} className="button-secondary">
+                                아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

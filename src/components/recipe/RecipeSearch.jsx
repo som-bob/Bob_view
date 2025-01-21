@@ -11,8 +11,7 @@ function RecipeSearch({
                           difficulties,
                           handleSearch,
                       }) {
-    // 모달 상태 관리
-    const [selectedIngredient, setSelectedIngredient] = useState(null);
+    const [selectedIngredient, setSelectedIngredient] = useState(null); // 모달 상태 관리
     const [isAddIngredientModalOpen, setIsAddIngredientModalOpen] = useState(false); // 추가 모달 상태
     const [allIngredient, setAllIngredient] = useState([]); // 모든 재료 정보
     const [filteredIngredients, setFilteredIngredients] = useState([]); // 필터링된 재료
@@ -156,7 +155,6 @@ function RecipeSearch({
 
     // 선택된 재료 추가
     const confirmAddIngredients = () => {
-        // setIngredients((prev) => [...prev, ...selectedNewIngredients]);
         setIngredients((prev) => {
             // 기존 ingredients의 id를 Set으로 저장하여 중복 확인
             const existingIds = new Set(prev.map((ingredient) => ingredient.ingredientId));
