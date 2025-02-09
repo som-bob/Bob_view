@@ -80,7 +80,7 @@ function RecipeList() {
             // 기존 ingredients의 id를 Set으로 저장하여 중복 확인
             const existingIds = new Set(prev.map((ingredient) => ingredient.ingredientId));
 
-            if(! existingIds.has(selectedIngredient.id)) {
+            if (!existingIds.has(selectedIngredient.id)) {
                 const mappedData = {
                     ingredientId: selectedIngredient.id, // id를 ingredientId로 변경
                     ingredientName: selectedIngredient.ingredientName,
@@ -95,6 +95,11 @@ function RecipeList() {
         });
 
         CloseAddIngredientModal();
+    }
+
+    // 레시피 카드 클릭 시 상세 페이지로 이동
+    const handleRecipeCardClick = (recipeId) => {
+        navigate(`/recipe/${recipeId}`);
     }
 
     return (
@@ -112,7 +117,9 @@ function RecipeList() {
             {/* 레시피 리스트 */}
             <div className="recipe-list">
                 {recipes.map((recipe) => (
-                    <div key={recipe.recipeId} className="recipe-card">
+                    <div key={recipe.recipeId}
+                         className="recipe-card"
+                         onClick={() => handleRecipeCardClick(recipe.recipeId)}>
                         <img
                             src={recipe.imageUrl}
                             alt={recipe.recipeName}
@@ -128,8 +135,14 @@ function RecipeList() {
                             <p className="recipe-ingredients-title">필요한 재료</p>
                             <ul className="recipe-ingredients">
                                 {recipe.ingredients.map((ingredient) => (
-                                    <li onClick={() => handleAddIngredient(ingredient)} key={ingredient.id}
-                                        className="ingredient-item">
+                                    <li
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // 부모 클릭 이벤트 방지
+                                            handleAddIngredient(ingredient);
+                                        }}
+                                        key={ingredient.id}
+                                        className="ingredient-item"
+                                    >
                                         {ingredient.ingredientName}
                                     </li>
                                 ))}

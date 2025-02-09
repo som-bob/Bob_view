@@ -8,6 +8,7 @@ function RecipeDetail() {
     const [recipe, setRecipe] = useState(null);
 
     useEffect(() => {
+        window.scrollTo(0, 0);  // 페이지 로드 시에 화면을 맨 위로
         fetchRecipe();
     }, [recipeId]);
 
@@ -63,7 +64,7 @@ function RecipeDetail() {
                 <ul>
                     {ingredients.map((ingredient) => (
                         <li key={ingredient.recipeIngredientId}>
-                            {ingredient.ingredientDetailName} - {ingredient.amount}
+                            {ingredient.ingredientDetailName} ({ingredient.amount === ''? "제한 없음" : ingredient.amount})
                         </li>
                     ))}
                 </ul>
