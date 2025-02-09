@@ -1,4 +1,12 @@
 /* 전체 레시피 리스트 컨테이너 */
+.recipe-add {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .recipe-list {
     display: flex;
     flex-direction: column;

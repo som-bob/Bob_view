@@ -102,8 +102,16 @@ function RecipeList() {
         navigate(`/recipe/${recipeId}`);
     }
 
+    // 레시피 추가 버튼
+    const handleRecipeAdd = () => {
+        navigate(`/recipe/add`);
+    }
+
     return (
         <div>
+            {/*레시피 추가*/}
+            <button className="recipe-add" onClick={handleRecipeAdd}>추가</button>
+
             {/* 검색 및 조건 관리 */}
             <RecipeSearch
                 recipeSearch={recipeSearch}

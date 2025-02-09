@@ -11,6 +11,7 @@ import RefrigeratorDetail from "./refrigerator/RefrigeratorDetail.jsx";
 import RefrigeratorCreate from "./refrigerator/RefrigeratorCreate.jsx";
 import RecipeList from "./recipe/RecipeList.jsx";
 import RecipeDetail from "./recipe/RecipeDetail.jsx";
+import RecipeCreate from "./recipe/RecipeCreate.jsx";
 
 function Layout() {
     const [activeMenu, setActiveMenu] = useState('welcome'); // 현재 선택된 메뉴
@@ -94,6 +95,8 @@ function Layout() {
                     {/* 레시피 영역 */}
                     <Route path="/recipe" element={<PrivateRoute element={RecipeList} />} />
                     <Route path="/recipe/:recipeId" element={<PrivateRoute element={RecipeDetail} />} />
+                    <Route path="/recipe/add" element={<PrivateRoute element={RecipeCreate} />} />
+
 
 
                 </Routes>
