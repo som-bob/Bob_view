@@ -6,7 +6,7 @@ import axiosInstance from "./axiosInstance.js";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // 레시피 목록 조뢰
-export const getRecipe = async (page, recipeSearch, ingredients) => {
+export const getRecipes = async (page, recipeSearch, ingredients) => {
     const pageSize = 20; // 페이지당 게시글 수
 
     // 검색 파라미터를
@@ -33,5 +33,11 @@ export const getRecipe = async (page, recipeSearch, ingredients) => {
 // 레시피 난이도 조회
 export const getRecipeDifficulty = async () => {
     const response = await axiosInstance.get(`${API_BASE_URL}/recipe/difficulty`);
+    return response.data;
+}
+
+// 레시피 상세 조회
+export const getRecipe = async (recipeId) => {
+    const response = await axiosInstance.get(`${API_BASE_URL}/recipe/${recipeId}`);
     return response.data;
 }

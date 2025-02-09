@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import './layout.css';
 import {Route, Routes, useNavigate} from "react-router-dom";
 import PrivateRoute from "./PrivateRoute.jsx";
@@ -10,6 +10,7 @@ import BoardEdit from "./board/BoardEdit.jsx";
 import RefrigeratorDetail from "./refrigerator/RefrigeratorDetail.jsx";
 import RefrigeratorCreate from "./refrigerator/RefrigeratorCreate.jsx";
 import RecipeList from "./recipe/RecipeList.jsx";
+import RecipeDetail from "./recipe/RecipeDetail.jsx";
 
 function Layout() {
     const [activeMenu, setActiveMenu] = useState('welcome'); // 현재 선택된 메뉴
@@ -92,6 +93,8 @@ function Layout() {
 
                     {/* 레시피 영역 */}
                     <Route path="/recipe" element={<PrivateRoute element={RecipeList} />} />
+                    <Route path="/recipe/:recipeId" element={<PrivateRoute element={RecipeDetail} />} />
+
 
                 </Routes>
             </main>

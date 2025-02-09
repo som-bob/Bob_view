@@ -1,10 +1,12 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {getRecipe, getRecipeDifficulty} from "../../api/recipe";
+import {getRecipes, getRecipeDifficulty} from "../../api/recipe";
 import {Pagination} from "../../utils/pageUtils.jsx";
 import RecipeSearch from "./RecipeSearch.jsx";
 import "./recipeList.css";
+import {useNavigate} from "react-router-dom";
 
 function RecipeList() {
+    const navigate = useNavigate();
     const [recipes, setRecipes] = useState([]); // 레시피 목록
     const [difficulties, setDifficulties] = useState([]); // 난이도 목록
     const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
@@ -22,7 +24,7 @@ function RecipeList() {
     const fetchRecipeList = useCallback(
         async (page = 0) => {
             try {
-                const response = await getRecipe(page, recipeSearch, ingredients);
+                const response = await getRecipes(page, recipeSearch, ingredients);
                 const {content, totalPages} = response.data;
                 setRecipes(content);
                 setTotalPages(totalPages);
