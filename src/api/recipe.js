@@ -41,3 +41,11 @@ export const getRecipe = async (recipeId) => {
     const response = await axiosInstance.get(`${API_BASE_URL}/recipe/${recipeId}`);
     return response.data;
 }
+
+// 레시피 추가
+export const addRecipe = async (formData) => {
+    const response = await axiosInstance.post(`${API_BASE_URL}/recipe/new`, formData, {
+        headers: {"Content-Type": "multipart/form-data"},
+    });
+    return response.data;
+}
