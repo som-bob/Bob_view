@@ -1,41 +1,13 @@
 import {useNavigate} from "react-router-dom";
-import {addRecipe} from "../../api/recipe";
+import {addRecipe, getRecipeDifficulty} from "../../api/recipe";
 import {useEffect, useState} from "react";
-
-function IngredientSelectionModal({ingredients, onSelect, onClose}) {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
-    const [selectedIngredients, setSelectedIngredients] = useState([]);
-
-    useEffect(() => {
-        setFilteredIngredients(
-            ingredients.filter((ingredients) =>
-                ingredients.ingredientName.toLowerCase().includes(searchTerm.toLowerCase())
-            ),
-        );
-    }, [searchTerm, ingredients]);
-
-    const toggleIngredientSelection = (ingredient) => {
-        setSelectedIngredients((prev) => {
-            if (prev.includes(ingredient)) {
-                return prev.filter((item) => item.ingredientId === ingredient.ingredientId);
-            } else {
-                return [...prev, ingredient];
-            }
-        })
-    };
-
-    const handleConfirm = () => {
-        onSelect(selectedIngredients);
-    };
-
-    return (<div>
-
-    </div>);
-}
+import {getAllIngredients} from "../../api/refrigerator.js";
+import "./recipeCreate.css";
+import IngredientSelectionModal from "./IngredientSelectionModal.jsx";
 
 function RecipeCreate() {
     const navigate = useNavigate();
+    const [difficulties, setDifficulties] = useState([]); // 난이도 목록
     const [recipe, setRecipe] = useState({
         recipeName: "",
         recipeDescription: "",
@@ -46,15 +18,42 @@ function RecipeCreate() {
         ingredients: [],
         recipeDetails: []
     });
+    const [ingredientList, setIngredientList] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleRecipeChange = (e) => {
+    useEffect(() => {
+        const loadIngredients = async () => {
+            const response = await getAllIngredients();
+            setIngredientList(response.data);
+        }
+        const loadDifficulties = async () => {
+
+            const response = await getRecipeDifficulty();
+            setDifficulties(response.data);
+        }
+
+        loadIngredients();
+        loadDifficulties()
+    }, []);
+
+
+    const handleChange = (e) => {
         const {name, value} = e.target;
         setRecipe({...recipe, [name]: value});
-    }
+    };
 
-    const handleRecipeFileChange = (e) => {
-        setRecipe({...recipe, recipeFile: e.target.file[0]});
-    }
+    const handleFileChange = (e) => {
+        setRecipe({...recipe, recipeFile: e.target.files[0]});
+    };
+
+    const handleIngredientSelection = (selectedIngredients) => {
+        const newIngredients = selectedIngredients.map(ingredient => ({
+            ...ingredient,
+            amount: ""
+        }));
+        setRecipe({...recipe, ingredients: newIngredients});
+        setIsModalOpen(false);
+    };
 
     const handleAddDetail = () => {
         setRecipe({
@@ -112,7 +111,51 @@ function RecipeCreate() {
     }
 
     return (
-        <div>레시피 추가</div>
+        <div className="recipe-create-container">
+            <h2 className="recipe-create-title">레시피 추가</h2>
+            <form onSubmit={handleSubmit} className="recipe-create-form">
+                <input type="text" name="recipeName" placeholder="레시피 이름" value={recipe.recipeName}
+                       onChange={handleChange} className="recipe-input"/>
+                <textarea name="recipeDescription" placeholder="레시피 설명" value={recipe.recipeDescription}
+                          onChange={handleChange} className="recipe-textarea"></textarea>
+
+                {/* 재료 부분*/}
+                <button
+                    type="button"
+                    onClick={() => setIsModalOpen(true)}
+                    className="recipe-add-ingredient-button">
+                    재료 추가
+                </button>
+                {recipe.ingredients.map((ingredient, index) => (
+                    <div key={index} className="recipe-ingredient-item">
+                        <span>{ingredient.ingredientName}</span>
+                        <input type="text" placeholder="수량" value={ingredient.amount} onChange={(e) => {
+                            const updatedIngredients = [...recipe.ingredients];
+                            updatedIngredients[index].amount = e.target.value;
+                            setRecipe({...recipe, ingredients: updatedIngredients});
+                        }} className="recipe-ingredient-input"/>
+                    </div>
+                ))}
+
+                {/* 레시피 상세 부분*/}
+                <button
+                    type="button"
+                    className="recipe-add-ingredient-button">
+                    레시피 순서 추가
+                </button>
+
+                <button type="submit" className="recipe-submit-button">레시피 추가</button>
+            </form>
+
+            {/* 재료 선택 모달 */}
+            {isModalOpen && (
+                <IngredientSelectionModal
+                    ingredients={ingredientList}
+                    onSelect={handleIngredientSelection}
+                    onClose={() => setIsModalOpen(false)}
+                />
+            )}
+        </div>
     );
 }
 
