@@ -1,6 +1,38 @@
 import {useNavigate} from "react-router-dom";
 import {addRecipe} from "../../api/recipe";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+
+function IngredientSelectionModal({ingredients, onSelect, onClose}) {
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
+
+    useEffect(() => {
+        setFilteredIngredients(
+            ingredients.filter((ingredients) =>
+                ingredients.ingredientName.toLowerCase().includes(searchTerm.toLowerCase())
+            ),
+        );
+    }, [searchTerm, ingredients]);
+
+    const toggleIngredientSelection = (ingredient) => {
+        setSelectedIngredients((prev) => {
+            if (prev.includes(ingredient)) {
+                return prev.filter((item) => item.ingredientId === ingredient.ingredientId);
+            } else {
+                return [...prev, ingredient];
+            }
+        })
+    };
+
+    const handleConfirm = () => {
+        onSelect(selectedIngredients);
+    };
+
+    return (<div>
+
+    </div>);
+}
 
 function RecipeCreate() {
     const navigate = useNavigate();
@@ -17,11 +49,11 @@ function RecipeCreate() {
 
     const handleRecipeChange = (e) => {
         const {name, value} = e.target;
-        setRecipe({ ...recipe, [name]: value });
+        setRecipe({...recipe, [name]: value});
     }
 
     const handleRecipeFileChange = (e) => {
-        setRecipe({ ...recipe, recipeFile: e.target.file[0] });
+        setRecipe({...recipe, recipeFile: e.target.file[0]});
     }
 
     const handleAddDetail = () => {
@@ -33,13 +65,13 @@ function RecipeCreate() {
 
     const handleRemoveDetail = (index) => {
         const updateDetails = recipe.recipeDetails.filter((_, i) => i !== index);
-        setRecipe({ ...recipe, recipeDetails: updateDetails });
+        setRecipe({...recipe, recipeDetails: updateDetails});
     }
 
     const handleDetailChange = (index, field, value) => {
         const updateDetails = [...recipe.recipeDetails];
         updateDetails[index][field] = value;
-        setRecipe({ ...recipe, recipeDetails: updateDetails });
+        setRecipe({...recipe, recipeDetails: updateDetails});
     }
 
     const handleSubmit = async (e) => {
@@ -56,7 +88,7 @@ function RecipeCreate() {
                     }
                 });
             }
-            // 재료에 대한 부분이 바뀌어야 될 수도 있음
+            // 재료에 대한 부분이 else if 추가 되어야 할 수도 있음
             else if (Array.isArray(recipe[key])) {
                 formData.append(key, JSON.stringify(recipe[key]));
             } else {
@@ -78,8 +110,6 @@ function RecipeCreate() {
             }
         }
     }
-
-    // 재료 추가에 대한 부분이 없음
 
     return (
         <div>레시피 추가</div>
