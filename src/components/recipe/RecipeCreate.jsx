@@ -66,11 +66,6 @@ function RecipeCreate() {
                 ingredients: [...prevRecipe.ingredients, ...newIngredients]
             };
         });
-        // const newIngredients = selectedIngredients.map(ingredient => ({
-        //     ...ingredient,
-        //     amount: ""
-        // }));
-        // setRecipe({...recipe, ingredients: newIngredients});
         setIsModalOpen(false);
     };
 
@@ -95,22 +90,28 @@ function RecipeCreate() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        Object.keys(recipe).forEach((key) => {
-            if (key === "recipeFile" && recipe[key]) {
-                formData.append(key, recipe[key]);
-            } else if (key === "recipeDetails") {
-                recipe.recipeDetails.forEach((detail, index) => {
-                    formData.append(`recipeDetails[${index}].recipeDetailText`, detail.recipeDetailText);
-                    if (detail.recipeDetailFile) {
-                        formData.append(`recipeDetails[${index}].recipeDetailFile`, detail.recipeDetailFile);
-                    }
-                });
-            }
-            // 재료에 대한 부분이 else if 추가 되어야 할 수도 있음
-            else if (Array.isArray(recipe[key])) {
-                formData.append(key, JSON.stringify(recipe[key]));
-            } else {
-                formData.append(key, recipe[key]);
+
+        // JSON 데이터 변환 (Blob 사용)
+        const jsonBlob = new Blob([JSON.stringify({
+            ...recipe,
+            difficulty: recipe.difficulty ? {code: recipe.difficulty.code} : null,
+            recipeDetails: recipe.recipeDetails.map(detail => ({
+                recipeDetailText: detail.recipeDetailText,
+            })),
+            ingredients: recipe.ingredients     // 현재 이부분에서 amount 값만 전달 되고 있다!!-
+        })], { type: "application/json" });
+
+        formData.append("data", jsonBlob);
+
+        // 메인 레시피 파일 추가
+        if(recipe.recipeFile) {
+            formData.append("recipeFile", recipe.recipeFile);
+        }
+
+        // 상세 레시피 텍스트 및 이미지 파일 추가
+        recipe.recipeDetails.forEach((detail, index) => {
+            if(detail.recipeDetailFile) {
+                formData.append(`recipeDetailsFiles[${index}]`, detail.recipeDetailFile);
             }
         });
 
@@ -118,7 +119,7 @@ function RecipeCreate() {
             const response = await addRecipe(formData);
             const recipeId = Number(response.data);
             alert("레시피를 성공적으로 저장했습니다.");
-            navigate(`/recipes/${recipeId}`);
+            navigate(`/recipe/${recipeId}`);
         } catch (error) {
             const responseData = error.response.data;
             if (error.status === 400) {
@@ -128,6 +129,7 @@ function RecipeCreate() {
             }
         }
     }
+
 
     return (
         <div className="recipe-create-container">
