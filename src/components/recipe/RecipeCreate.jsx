@@ -98,7 +98,11 @@ function RecipeCreate() {
             recipeDetails: recipe.recipeDetails.map(detail => ({
                 recipeDetailText: detail.recipeDetailText,
             })),
-            ingredients: recipe.ingredients     // 현재 이부분에서 amount 값만 전달 되고 있다!!-
+            ingredients: recipe.ingredients.map(ingredient => ({
+                ingredientId: ingredient.id,
+                ingredientDetailName: ingredient.ingredientDetailName || ingredient.ingredientName,
+                amount: ingredient.amount
+            }))
         })], { type: "application/json" });
 
         formData.append("data", jsonBlob);
@@ -168,6 +172,12 @@ function RecipeCreate() {
                     recipe.ingredients.map((ingredient, index) => (
                         <div key={index} className="recipe-ingredient-item">
                             <span>{ingredient.ingredientName}</span>
+                            <input type="text" placeholder={ingredient.ingredientName} value={ingredient.ingredientDetailName}
+                                   onChange={(e) => {
+                                       const updatedIngredients = [...recipe.ingredients];
+                                       updatedIngredients[index].ingredientDetailName = e.target.value;
+                                       setRecipe({...recipe, ingredients: updatedIngredients});
+                                   }} className="recipe-ingredient-input"/>
                             <input type="text" placeholder="재료 양(1개, 500g 등등 자유롭게)" value={ingredient.amount}
                                    onChange={(e) => {
                                        const updatedIngredients = [...recipe.ingredients];
