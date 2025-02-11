@@ -1,9 +1,9 @@
 import {useNavigate} from "react-router-dom";
 import {addRecipe, getRecipeDifficulty} from "../../api/recipe";
 import {useEffect, useState} from "react";
-import {getAllIngredients} from "../../api/refrigerator.js";
 import "./recipeCreate.css";
 import IngredientSelectionModal from "./IngredientSelectionModal.jsx";
+import {getAllIngredient} from "../../api/ingredient.js";
 
 function RecipeCreate() {
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ function RecipeCreate() {
 
     useEffect(() => {
         const loadIngredients = async () => {
-            const response = await getAllIngredients();
+            const response = await getAllIngredient();
             setIngredientList(response.data);
         }
         const loadDifficulties = async () => {
@@ -39,7 +39,15 @@ function RecipeCreate() {
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setRecipe({...recipe, [name]: value});
+        if (name === 'difficulty') {
+            const selectDifficulty = difficulties.find((d) => d.code === value);
+            setRecipe({
+                ...recipe,
+                difficulty: selectDifficulty || ""
+            });
+        } else {
+            setRecipe({...recipe, [name]: value});
+        }
     };
 
     const handleFileChange = (e) => {
@@ -47,13 +55,25 @@ function RecipeCreate() {
     };
 
     const handleIngredientSelection = (selectedIngredients) => {
-        const newIngredients = selectedIngredients.map(ingredient => ({
-            ...ingredient,
-            amount: ""
-        }));
-        setRecipe({...recipe, ingredients: newIngredients});
+        setRecipe(prevRecipe => {
+            const existingIds = new Set(prevRecipe.ingredients.map(ing => ing.id));
+            const newIngredients = selectedIngredients.filter(ingredient => !existingIds.has(ingredient.id)).map(ingredient => ({
+                ...ingredient,
+                amount: ""
+            }));
+            return {
+                ...prevRecipe,
+                ingredients: [...prevRecipe.ingredients, ...newIngredients]
+            };
+        });
+        // const newIngredients = selectedIngredients.map(ingredient => ({
+        //     ...ingredient,
+        //     amount: ""
+        // }));
+        // setRecipe({...recipe, ingredients: newIngredients});
         setIsModalOpen(false);
     };
+
 
     const handleAddDetail = () => {
         setRecipe({
@@ -67,10 +87,9 @@ function RecipeCreate() {
         setRecipe({...recipe, recipeDetails: updateDetails});
     }
 
-    const handleDetailChange = (index, field, value) => {
-        const updateDetails = [...recipe.recipeDetails];
-        updateDetails[index][field] = value;
-        setRecipe({...recipe, recipeDetails: updateDetails});
+    const handleRemoveIngredient = (index) => {
+        const updateIngredients = recipe.ingredients.filter((_, i) => i !== index);
+        setRecipe({...recipe, ingredients: updateIngredients});
     }
 
     const handleSubmit = async (e) => {
@@ -118,6 +137,23 @@ function RecipeCreate() {
                        onChange={handleChange} className="recipe-input"/>
                 <textarea name="recipeDescription" placeholder="레시피 설명" value={recipe.recipeDescription}
                           onChange={handleChange} className="recipe-textarea"></textarea>
+                <input type="text" name="servings" placeholder="몇인분" value={recipe.servings}
+                       onChange={handleChange} className="recipe-input"/>
+                <input type="number" name="cookingTime" placeholder="소요 시간(분)" value={recipe.cookingTime}
+                       onChange={handleChange} className="recipe-input"/>
+                <select
+                    id="difficulty"
+                    name="difficulty"
+                    value={recipe.difficulty?.code || ""}
+                    onChange={handleChange}
+                >
+                    <option value="">난이도를 선택하세요.</option>
+                    {difficulties.map((difficulty) => (
+                        <option key={difficulty.code} value={difficulty.code}>
+                            {difficulty.title}
+                        </option>
+                    ))}
+                </select>
 
                 {/* 재료 부분*/}
                 <button
@@ -126,24 +162,51 @@ function RecipeCreate() {
                     className="recipe-add-ingredient-button">
                     재료 추가
                 </button>
-                {recipe.ingredients.map((ingredient, index) => (
-                    <div key={index} className="recipe-ingredient-item">
-                        <span>{ingredient.ingredientName}</span>
-                        <input type="text" placeholder="수량" value={ingredient.amount} onChange={(e) => {
-                            const updatedIngredients = [...recipe.ingredients];
-                            updatedIngredients[index].amount = e.target.value;
-                            setRecipe({...recipe, ingredients: updatedIngredients});
-                        }} className="recipe-ingredient-input"/>
-                    </div>
-                ))}
+                {
+                    recipe.ingredients.map((ingredient, index) => (
+                        <div key={index} className="recipe-ingredient-item">
+                            <span>{ingredient.ingredientName}</span>
+                            <input type="text" placeholder="재료 양(1개, 500g 등등 자유롭게)" value={ingredient.amount}
+                                   onChange={(e) => {
+                                       const updatedIngredients = [...recipe.ingredients];
+                                       updatedIngredients[index].amount = e.target.value;
+                                       setRecipe({...recipe, ingredients: updatedIngredients});
+                                   }} className="recipe-ingredient-input"/>
+                            <button
+                                type="button"
+                                onClick={() => handleRemoveIngredient(index)}>제거
+                            </button>
+                        </div>
+                    ))}
 
                 {/* 레시피 상세 부분*/}
                 <button
                     type="button"
-                    className="recipe-add-ingredient-button">
-                    레시피 순서 추가
+                    className="recipe-add-ingredient-button"
+                    onClick={handleAddDetail}>
+                    조리 순서 추가
                 </button>
+                {
+                    recipe.recipeDetails.map((detail, index) => (
+                        <div key={index} className="recipe-detail-item">
+                            <span>Step {index + 1}</span>
+                            <input type="text"
+                                   placeholder="입력해주세요."
+                                   value={detail.recipeDetailText}
+                                   onChange={(e) => {
+                                       const updatedDetails = [...recipe.recipeDetails];
+                                       updatedDetails[index].recipeDetailText = e.target.value;
+                                       setRecipe({...recipe, recipeDetails: updatedDetails})
+                                   }} className="recipe-detail-input"/>
+                            <button
+                                type="button"
+                                onClick={() => handleRemoveDetail(index)}>제거
+                            </button>
+                        </div>
+                    ))
+                }
 
+                {/* 레시피 추가 제출*/}
                 <button type="submit" className="recipe-submit-button">레시피 추가</button>
             </form>
 

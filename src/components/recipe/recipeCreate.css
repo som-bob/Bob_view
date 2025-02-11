@@ -53,6 +53,13 @@
     width: 50%;
 }
 
+.recipe-ingredient-item button {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 5px;
+    width: 10%;
+}
+
 .button-primary {
     background-color: blue;
     color: white;
@@ -67,4 +74,27 @@
     padding: 10px;
     border: none;
     cursor: pointer;
+}
+
+.recipe-detail-item {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recipe-detail-input {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 5px;
+    width: 80%;
+}
+
+.recipe-detail-item button {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 5px;
+    width: 10%;
 }
