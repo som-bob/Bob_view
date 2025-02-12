@@ -85,6 +85,10 @@
     align-items: center;
 }
 
+.recipe-detail-item span{
+    width: 10%;
+}
+
 .recipe-detail-input {
     border: 1px solid #ccc;
     padding: 0.5rem;

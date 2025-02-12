@@ -54,6 +54,12 @@ function RecipeCreate() {
         setRecipe({...recipe, recipeFile: e.target.files[0]});
     };
 
+    const handleDetailFileChange = (index, file) => {
+        const updateRecipeDetail = [...recipe.recipeDetails];
+        updateRecipeDetail[index].recipeDetailFile = file;
+        setRecipe({...recipe, recipeDetails: updateRecipeDetail});
+    };
+
     const handleIngredientSelection = (selectedIngredients) => {
         setRecipe(prevRecipe => {
             const existingIds = new Set(prevRecipe.ingredients.map(ing => ing.id));
@@ -98,26 +104,32 @@ function RecipeCreate() {
             recipeDetails: recipe.recipeDetails.map(detail => ({
                 recipeDetailText: detail.recipeDetailText,
             })),
+            recipeFile: null,   // 파일은 json 안에서 제거한다
             ingredients: recipe.ingredients.map(ingredient => ({
                 ingredientId: ingredient.id,
                 ingredientDetailName: ingredient.ingredientDetailName || ingredient.ingredientName,
                 amount: ingredient.amount
             }))
-        })], { type: "application/json" });
+        })], {type: "application/json"});
 
         formData.append("data", jsonBlob);
 
         // 메인 레시피 파일 추가
-        if(recipe.recipeFile) {
+        if (recipe.recipeFile) {
             formData.append("recipeFile", recipe.recipeFile);
         }
 
         // 상세 레시피 텍스트 및 이미지 파일 추가
         recipe.recipeDetails.forEach((detail, index) => {
-            if(detail.recipeDetailFile) {
-                formData.append(`recipeDetailsFiles[${index}]`, detail.recipeDetailFile);
+            if (detail.recipeDetailFile) {
+                formData.append(`recipeDetailsFiles.${index}`, detail.recipeDetailFile);
             }
         });
+
+        // FormData 확인 (디버깅용)
+        for (let pair of formData.entries()) {
+            console.log(pair[0], pair[1]);
+        }
 
         try {
             const response = await addRecipe(formData);
@@ -139,14 +151,30 @@ function RecipeCreate() {
         <div className="recipe-create-container">
             <h2 className="recipe-create-title">레시피 추가</h2>
             <form onSubmit={handleSubmit} className="recipe-create-form">
-                <input type="text" name="recipeName" placeholder="레시피 이름" value={recipe.recipeName}
-                       onChange={handleChange} className="recipe-input"/>
-                <textarea name="recipeDescription" placeholder="레시피 설명" value={recipe.recipeDescription}
-                          onChange={handleChange} className="recipe-textarea"></textarea>
-                <input type="text" name="servings" placeholder="몇인분" value={recipe.servings}
-                       onChange={handleChange} className="recipe-input"/>
-                <input type="number" name="cookingTime" placeholder="소요 시간(분)" value={recipe.cookingTime}
-                       onChange={handleChange} className="recipe-input"/>
+                {/* 레시피 정보 */}
+                <input
+                    type="text"
+                    name="recipeName"
+                    placeholder="레시피 이름"
+                    value={recipe.recipeName}
+                    onChange={handleChange} className="recipe-input"/>
+                <textarea
+                    name="recipeDescription"
+                    placeholder="레시피 설명"
+                    value={recipe.recipeDescription}
+                    onChange={handleChange} className="recipe-textarea"></textarea>
+                <input
+                    type="text"
+                    name="servings"
+                    placeholder="몇인분"
+                    value={recipe.servings}
+                    onChange={handleChange} className="recipe-input"/>
+                <input
+                    type="number"
+                    name="cookingTime"
+                    placeholder="소요 시간(분)"
+                    value={recipe.cookingTime}
+                    onChange={handleChange} className="recipe-input"/>
                 <select
                     id="difficulty"
                     name="difficulty"
@@ -160,6 +188,9 @@ function RecipeCreate() {
                         </option>
                     ))}
                 </select>
+                {/* 레시피 이미지 */}
+                <input type="file" onChange={handleFileChange} className="recipe-file-input"/>
+
 
                 {/* 재료 부분*/}
                 <button
@@ -172,7 +203,8 @@ function RecipeCreate() {
                     recipe.ingredients.map((ingredient, index) => (
                         <div key={index} className="recipe-ingredient-item">
                             <span>{ingredient.ingredientName}</span>
-                            <input type="text" placeholder={ingredient.ingredientName} value={ingredient.ingredientDetailName}
+                            <input type="text" placeholder={ingredient.ingredientName}
+                                   value={ingredient.ingredientDetailName}
                                    onChange={(e) => {
                                        const updatedIngredients = [...recipe.ingredients];
                                        updatedIngredients[index].ingredientDetailName = e.target.value;
@@ -202,14 +234,20 @@ function RecipeCreate() {
                     recipe.recipeDetails.map((detail, index) => (
                         <div key={index} className="recipe-detail-item">
                             <span>Step {index + 1}</span>
-                            <input type="text"
-                                   placeholder="입력해주세요."
-                                   value={detail.recipeDetailText}
-                                   onChange={(e) => {
-                                       const updatedDetails = [...recipe.recipeDetails];
-                                       updatedDetails[index].recipeDetailText = e.target.value;
-                                       setRecipe({...recipe, recipeDetails: updatedDetails})
-                                   }} className="recipe-detail-input"/>
+                            <textarea
+                                placeholder="입력해주세요."
+                                value={detail.recipeDetailText}
+                                onChange={(e) => {
+                                    const updatedDetails = [...recipe.recipeDetails];
+                                    updatedDetails[index].recipeDetailText = e.target.value;
+                                    setRecipe({...recipe, recipeDetails: updatedDetails})
+                                }} className="recipe-detail-input"/>
+                            <span>이미지</span>
+                            <input
+                                type="file"
+                                onChange={(e) => handleDetailFileChange(index, e.target.files[0])}
+                                className="recipe-detail-file-input"
+                            />
                             <button
                                 type="button"
                                 onClick={() => handleRemoveDetail(index)}>제거
