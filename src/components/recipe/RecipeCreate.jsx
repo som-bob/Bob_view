@@ -119,17 +119,10 @@ function RecipeCreate() {
             formData.append("recipeFile", recipe.recipeFile);
         }
 
-        // 상세 레시피 텍스트 및 이미지 파일 추가
-        recipe.recipeDetails.forEach((detail, index) => {
-            if (detail.recipeDetailFile) {
-                formData.append(`recipeDetailsFiles.${index}`, detail.recipeDetailFile);
-            }
+        // 상세 레시피 이미지 파일 추가 (배열로 전달, null 자리에 빈 Blob 전달)
+        recipe.recipeDetails.forEach((detail) => {
+            formData.append("recipeDetailsFiles", detail.recipeDetailFile || new Blob());
         });
-
-        // FormData 확인 (디버깅용)
-        for (let pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
-        }
 
         try {
             const response = await addRecipe(formData);
