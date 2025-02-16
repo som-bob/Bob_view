@@ -15,18 +15,27 @@ export const getRecipes = async (page, recipeSearch, ingredients) => {
         size: pageSize
     });
 
-    // ingredientId 리스트 추출
+    // 레시피 검색 조건 추가
+    if (recipeSearch.recipeName) {
+        params.append("recipeName", recipeSearch.recipeName);
+    }
+
+    if (recipeSearch.recipeDescription) {
+        params.append("recipeDescription", recipeSearch.recipeDescription);
+    }
+
+    if (recipeSearch.difficulty && recipeSearch.difficulty !== '') {
+        params.append("difficulty", recipeSearch.difficulty.code);
+    }
+
+    // ingredientId 리스트 추가
     let ingredientIds = [];
     if(Array.isArray(ingredients) && ingredients.length > 0) {
         ingredientIds = ingredients.map((ingredient) => ingredient.ingredientId);
+        params.append("ingredientIds", ingredientIds);
     }
 
-    const response = await axiosInstance.post(`${API_BASE_URL}/recipe?${params.toString()}`, {
-        recipeName: recipeSearch.recipeName,
-        recipeDescription: recipeSearch.recipeDescription,
-        ingredientIds: ingredientIds,
-        difficulty: recipeSearch.difficulty === '' ? null : recipeSearch.difficulty,
-    });
+    const response = await axiosInstance.get(`${API_BASE_URL}/recipe`, {params});
     return response.data;
 }
 
