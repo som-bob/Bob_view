@@ -228,7 +228,7 @@ function RecipeCreate() {
                         <div key={index} className="recipe-detail-item">
                             <span>Step {index + 1}</span>
                             <textarea
-                                placeholder="입력해주세요."
+                                placeholder="입력해주세요"
                                 value={detail.recipeDetailText}
                                 onChange={(e) => {
                                     const updatedDetails = [...recipe.recipeDetails];
