@@ -2,32 +2,32 @@ name: cache
 on:
   push:
     paths:
-    - '../Bob_view/**'
+      - 'Bob_view/**'
 
 jobs:
   cache:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
-      uses: actions/checkout@v4 # 레포지토리 체크 아웃(레포지토리를 가져온다)
-    - name: setup-node
-      uses: actions/setup-node@v3 # 22 버전의 node를 install
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
       with:
-        node-version: 22
+        node-version: 18
+
     - name: Cache Node.js modules
-      uses: actions/cache@v3 # cache action
-      with: # path, key, restore-keys 등 input 값으로 지정된 값들을 가져온다 (마켓 플레이스에 정의됨)
-        path: '~/.npm' # 캐싱할 경로
-        key: '${{ runner.os }}'-node-${{ hashFiles('**/package-lock.json')}} # 캐시의 키, 그 값으로는 운영체제와 package-lock.json 해시 값으로 이루어진다. node는 임의의 문자열이다
-        restore-keys: | # 캐시 복구를 위한 키
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('Bob_view/package-lock.json') }}
+        restore-keys: |
           ${{ runner.os }}-node-
-# 이처럼 설정할 경우, 이후에 같은 운영체제에서 동일한 package.json을 가진 workflow가 실행될 때 저장해둔 cache 데이터를 참고해 restore-key와 일치하는 cache 데이터를 가져와 사용합니다.
-# 처음 이 workflow가 실행될 때는 캐시가 없다는 메세지가, 완료할 무렵에는 캐시를 세이브했다는 메세지를 확인할 수 있다.
-    - name: Install dependencies # Bob_view에서 필요한 디펜덴시를 설치한다.
-      run: |
-        cd Bob_view
-        npm ci
-    - name: npm build # Bob_view 디렉토리에서 빌드한다.
-      run: |
-        cd Bob_view
-        npm run build
+
+    - name: Install dependencies
+      run: npm ci
+      working-directory: Bob_view
+
+    - name: Build Project
+      run: npm run build
+      working-directory: Bob_view
