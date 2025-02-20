@@ -1,8 +1,10 @@
 name: cache
 on:
   push:
+    # 특정 파일만 감지한다. 아래는 디펜덴시가 변경될때만 캐시하도록 하는것이다.
     paths:
-      - 'Bob_view/**'
+      - 'package-lock.json'
+      - '.github/workflows/cache.yaml'
 
 jobs:
   cache:
@@ -19,9 +21,12 @@ jobs:
     - name: Cache Node.js modules
       uses: actions/cache@v3
       with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('Bob_view/package-lock.json') }}
+        path: |
+          ~/.npm
+           Bob_view/node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
         restore-keys: |
+          ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           ${{ runner.os }}-node-
 
     - name: Install dependencies
